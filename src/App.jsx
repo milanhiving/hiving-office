@@ -1,7 +1,54 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-// NOTION_SYNC: Replace INIT_AGENTS/INIT_QUESTS with fetch() calls to Notion proxy
-// Notion DBs: Agent Status (da7454f0), Quêtes (feaa147d), Missions (c8ed7950)
+// ═══════════════════════════════════════════════════════════════
+// LIVE DATA — fetches data.json pushed by sync task every 15min
+// ═══════════════════════════════════════════════════════════════
+const DATA_URL = import.meta.env.BASE_URL + "data.json";
+const SYNC_INTERVAL = 30000; // poll every 30s
+
+function mapAgentId(name) {
+  const map = {"KHAN":"khan","ORACLE":"oracle","VIPER":"viper","HUNTER":"hunter","ARCHITECT":"architect","HERALD":"herald","WARDEN":"warden","SAGE":"sage","ALCHEMIST":"alchemist","SCOUT":"scout"};
+  for (const [k,v] of Object.entries(map)) if (name.toUpperCase().includes(k)) return v;
+  return name.toLowerCase().replace(/[^a-z]/g,"");
+}
+
+function mergeAgents(liveAgents, fallback) {
+  if (!liveAgents || !liveAgents.length) return fallback;
+  return liveAgents.map((la, i) => {
+    const fb = fallback.find(f => f.name === la.name) || fallback[i] || {};
+    const meta = AGENT_META[la.name] || {};
+    return {
+      id: mapAgentId(la.name),
+      name: la.name,
+      room: la.room || fb.room || "bureau",
+      status: la.status || fb.status || "idle",
+      c: meta.startC ?? fb.c ?? 10,
+      r: meta.startR ?? fb.r ?? 5,
+      xp: fb.xp || 0,
+      mission: la.task || fb.mission || "",
+      context: la.action || fb.context || "",
+      lastAction: la.action || fb.lastAction || "",
+      nextStep: fb.nextStep || "",
+      blockedOn: fb.blockedOn || "",
+      priority: fb.priority || "🟡 Normal",
+      message: la.message || fb.message || "",
+    };
+  });
+}
+
+function mergeQuests(liveQuests, fallback) {
+  if (!liveQuests || !liveQuests.length) return fallback;
+  return liveQuests.map((lq, i) => ({
+    id: `lq${i}`,
+    name: lq.title || "Untitled",
+    ag: lq.agent || "",
+    type: lq.type || "SIDE",
+    xp: lq.xp || 0,
+    st: lq.status || "à faire",
+    dl: lq.deadline || "",
+    desc: lq.description || "",
+  }));
+}
 
 // ═══════════════════════════════════════════════════════════════
 // TILE ENGINE
@@ -255,6 +302,41 @@ export default function App() {
   const [drag, setDrag] = useState(null);
   const [notifs, setNotifs] = useState([]);
   const [selectedQuest, setSelectedQuest] = useState(null);
+  const [lastSync, setLastSync] = useState(null);
+  const [syncError, setSyncError] = useState(false);
+
+  // ═══ LIVE DATA FETCH ═══
+  useEffect(() => {
+    let mounted = true;
+    const doFetch = async () => {
+      try {
+        const res = await fetch(DATA_URL + "?t=" + Date.now());
+        if (!res.ok) { setSyncError(true); return; }
+        const data = await res.json();
+        if (!mounted) return;
+        setSyncError(false);
+        setLastSync(data.lastSync || new Date().toISOString());
+        // Merge live agents — preserve current positions (c/r) if agent is walking
+        setAgents(prev => {
+          const merged = mergeAgents(data.agents, INIT_AGENTS);
+          return merged.map(ma => {
+            const existing = prev.find(p => p.name === ma.name);
+            if (existing) {
+              return { ...ma, c: existing.c, r: existing.r, xp: existing.xp };
+            }
+            return ma;
+          });
+        });
+        // Merge live quests
+        if (data.quests && data.quests.length) {
+          setQuests(mergeQuests(data.quests, INIT_QUESTS));
+        }
+      } catch(e) { setSyncError(true); }
+    };
+    doFetch();
+    const id = setInterval(doFetch, SYNC_INTERVAL);
+    return () => { mounted = false; clearInterval(id); };
+  }, []);
 
   // Tiles
   const tiles = [];
@@ -363,6 +445,8 @@ export default function App() {
         <span style={{color:"#666"}}>|</span>
         <span style={{color:"#ffaa44"}}>LV{level.lv}</span>
         <span style={{color:"#555"}}>{totalXp}XP</span>
+        <span style={{color:"#666"}}>|</span>
+        <span style={{color:syncError?"#ff4444":lastSync?"#44ff88":"#666"}}>{syncError?"⚠ OFFLINE":lastSync?"🔗 LIVE":"⏳ SYNC"}</span>
       </div>
       <div style={{display:"flex",gap:4,marginLeft:12}}>
         <button onClick={()=>setScale(s=>Math.min(3,s+0.2))} style={{padding:"2px 6px",background:"transparent",border:"1px solid #1a1a28",color:"#555",fontSize:10,cursor:"pointer",fontFamily:"monospace"}}>+</button>
