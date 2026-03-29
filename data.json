@@ -14,12 +14,12 @@
     {
       "id": "oracle",
       "name": "🔮 ORACLE",
-      "status": "idle",
+      "status": "working",
       "room": "bureau",
-      "task": "",
-      "action": "",
-      "message": "Prêt à analyser.",
-      "lastUpdate": "2026-03-29T14:00:29.724Z"
+      "task": "Scan CR calls semaine 13",
+      "action": "Démarrage session test",
+      "message": "Scanning call data... 🔮",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
     },
     {
       "id": "viper",
@@ -49,7 +49,7 @@
       "task": "",
       "action": "",
       "message": "Plans en attente.",
-      "lastUpdate": "2026-03-29T14:00:29.724Z"
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
     },
     {
       "id": "herald",
@@ -69,7 +69,7 @@
       "task": "",
       "action": "",
       "message": "Tout est en ordre.",
-      "lastUpdate": "2026-03-29T14:00:43.860Z"
+      "lastUpdate": "2026-03-29T14:00:29.724Z"
     },
     {
       "id": "sage",
@@ -99,7 +99,7 @@
       "task": "",
       "action": "",
       "message": "Veille active.",
-      "lastUpdate": "2026-03-29T14:00:43.860Z"
+      "lastUpdate": "2026-03-29T14:00:29.724Z"
     }
   ],
   "quests": [
@@ -206,16 +206,6 @@
       "lastAction": "Draft brief La Table Hiving rédigé"
     },
     {
-      "agent": "🧠 STRATÈGE",
-      "mission": "Roadmap Q2 Hiving Food",
-      "priority": "🟠 High",
-      "context": "Définir les 3-4 deals prioritaires Q2, les talents à pousser, et les offres produit à packager (La Table Hiving, House of Food)",
-      "nextStep": "Rédiger la roadmap complète Q2 avec objectifs chiffrés",
-      "blockedOn": "Rien — peut démarrer",
-      "xpEarned": 0,
-      "lastAction": "Analyse pipeline marques existant"
-    },
-    {
       "agent": "⭐ TALENT",
       "mission": "Jules → Samsung Food + dispos Vincent avril",
       "priority": "🟠 High",
@@ -224,6 +214,16 @@
       "blockedOn": "Attente confirmation Jules disponibilité",
       "xpEarned": 0,
       "lastAction": "Confirmation dispos Vincent Salur pour avril"
+    },
+    {
+      "agent": "🧠 STRATÈGE",
+      "mission": "Roadmap Q2 Hiving Food",
+      "priority": "🟠 High",
+      "context": "Définir les 3-4 deals prioritaires Q2, les talents à pousser, et les offres produit à packager (La Table Hiving, House of Food)",
+      "nextStep": "Rédiger la roadmap complète Q2 avec objectifs chiffrés",
+      "blockedOn": "Rien — peut démarrer",
+      "xpEarned": 0,
+      "lastAction": "Analyse pipeline marques existant"
     },
     {
       "agent": "📋 ADMIN",
