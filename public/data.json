@@ -1,1 +1,289 @@
-{"lastSync":"2026-03-29T14:01:00.000Z","agents":[{"id":"khan","name":"👑 KHAN","status":"idle","room":"khan","task":"","action":"","message":"Le boss attend ses rapports.","lastUpdate":"2026-03-29T14:00:43.860Z"},{"id":"oracle","name":"🔮 ORACLE","status":"idle","room":"bureau","task":"","action":"","message":"Prêt à analyser.","lastUpdate":"2026-03-29T14:00:29.724Z"},{"id":"viper","name":"🐍 VIPER","status":"idle","room":"bureau","task":"","action":"","message":"En veille stratégique.","lastUpdate":"2026-03-29T14:00:43.860Z"},{"id":"hunter","name":"🏹 HUNTER","status":"working","room":"couloir","task":"Relance Elle & Vire + LCL","action":"Envoi emails","message":"LCL chaud → RDV sem14 🔥","lastUpdate":"2026-03-29T14:00:43.860Z"},{"id":"architect","name":"🏗️ ARCHITECT","status":"idle","room":"bureau","task":"","action":"","message":"Plans en attente.","lastUpdate":"2026-03-29T14:00:29.724Z"},{"id":"herald","name":"📯 HERALD","status":"idle","room":"salle_reunion","task":"","action":"","message":"Aucune annonce.","lastUpdate":"2026-03-29T14:00:43.860Z"},{"id":"warden","name":"🛡️ WARDEN","status":"idle","room":"bureau","task":"","action":"","message":"Tout est en ordre.","lastUpdate":"2026-03-29T14:00:29.724Z"},{"id":"sage","name":"📜 SAGE","status":"idle","room":"bureau","task":"","action":"","message":"Mémoire synchronisée.","lastUpdate":"2026-03-29T14:00:29.724Z"},{"id":"alchemist","name":"⚗️ ALCHEMIST","status":"idle","room":"cuisine","task":"","action":"","message":"Labo prêt.","lastUpdate":"2026-03-29T14:00:29.724Z"},{"id":"scout","name":"🔭 SCOUT","status":"idle","room":"couloir2","task":"","action":"","message":"Veille active.","lastUpdate":"2026-03-29T14:00:43.860Z"},{"id":"admin","name":"📋 ADMIN","status":"idle","room":"bureau","task":"Devis Elle & Vire à préparer","action":"Templates contrats à jour","message":"En attente signal CRÉATIF","lastUpdate":"2026-03-29T00:38:42.754Z"},{"id":"stratege","name":"🧠 STRATÈGE","status":"idle","room":"bureau","task":"Lecture priorities semaine","action":"En attente d'instructions","message":"Prêt à démarrer","lastUpdate":"2026-03-29T00:38:42.754Z"},{"id":"creatif","name":"🎬 CRÉATIF","status":"working","room":"bureau","task":"Finaliser brief événementiel","action":"Brief La Table Hiving en cours","message":"Draft 80% terminé","lastUpdate":"2026-03-29T00:38:42.754Z"},{"id":"talent","name":"⭐ TALENT","status":"waiting","room":"cuisine","task":"Matcher Jules → Samsung","action":"Attente confirmation dispos talents","message":"En attente de retour Milan","lastUpdate":"2026-03-29T00:38:42.754Z"},{"id":"chasseur","name":"🎯 CHASSEUR","status":"working","room":"bureau","task":"Relance Elle & Vire + LCL","action":"Campagne Instantly active","message":"Pipeline en cours de mise à jour","lastUpdate":"2026-03-29T00:38:42.754Z"}],"quests":[{"title":"🔥 Closer Elle & Vire","agent":"","status":"en cours","type":"URGENT","xp":500,"deadline":"2026-04-05","description":"Relancer la proposition Elle & Vire et obtenir un RDV ou un accord","reward":"Deal signé — +500 XP — déblocage quête brief"},{"title":"✍️ Brief La Table Hiving","agent":"","status":"en cours","type":"MAIN","xp":400,"deadline":"2026-04-03","description":"Finaliser le brief complet de l'événement La Table Hiving pour présentation marques","reward":"+400 XP — activation offre événementielle"},{"title":"⭐ Jules → Samsung Food","agent":"","status":"à faire","type":"MAIN","xp":450,"deadline":"2026-04-10","description":"Positionner Jules sur le deal Samsung food — préparer son dossier talent","reward":"+450 XP — nouveau deal talent"},{"title":"🗺️ Roadmap Q2 Hiving Food","agent":"","status":"à faire","type":"MAIN","xp":600,"deadline":"2026-04-15","description":"Définir la roadmap complète Q2 2026 : deals cibles, talents, offres produit","reward":"+600 XP — vision long terme"},{"title":"💰 Devis Elle & Vire","agent":"","status":"à faire","type":"SIDE","xp":200,"deadline":"2026-04-06","description":"Générer le devis Elle & Vire dès que le brief CRÉATIF est validé","reward":"+200 XP — pipeline financier"},{"title":"🎬 Reel 60s Peppe","agent":"","status":"à faire","type":"SIDE","xp":250,"deadline":"2026-04-12","description":"Construire le brief format Reel 60s pour Peppe Cutraro — nouveau format à tester","reward":"+250 XP — nouveau format contenu"}],"missions":[{"agent":"🎬 CRÉATIF","mission":"Brief La Table Hiving (80%) + one-pager Hiving Food","priority":"🔴 Urgent","context":"Brief La Table Hiving est à 80% — événement filmé premium financé par sponsor. One-pager générique Hiving Food demandé par CHASSEUR pour cold outreach.","nextStep":"Finaliser brief La Table Hiving + créer one-pager 1 page Hiving Food","blockedOn":"Validation angle créatif La Table Hiving par Milan","xpEarned":0,"lastAction":"Draft brief La Table Hiving rédigé"},{"agent":"🎯 CHASSEUR","mission":"Closer Elle & Vire + RDV LCL","priority":"🔴 Urgent","context":"Elle & Vire en discussion depuis 2 semaines, proposition envoyée. LCL est chaud, contact établi, RDV à booker semaine 14 absolument.","nextStep":"Appel LCL pour confirmer RDV + follow-up Elle & Vire si pas de retour sous 48h","blockedOn":"Attente retour Elle & Vire","xpEarned":0,"lastAction":"Relance email Elle & Vire envoyée"},{"agent":"🧠 STRATÈGE","mission":"Roadmap Q2 Hiving Food","priority":"🟠 High","context":"Définir les 3-4 deals prioritaires Q2, les talents à pousser, et les offres produit à packager (La Table Hiving, House of Food)","nextStep":"Rédiger la roadmap complète Q2 avec objectifs chiffrés","blockedOn":"Rien — peut démarrer","xpEarned":0,"lastAction":"Analyse pipeline marques existant"},{"agent":"📋 ADMIN","mission":"Devis Elle & Vire dès validation brief","priority":"🟡 Normal","context":"En stand-by sur le brief CRÉATIF. Dès validation, générer le devis Elle & Vire. Templates contrats partenariat à jour.","nextStep":"Générer devis Elle & Vire dès signal CRÉATIF","blockedOn":"Brief Elle & Vire pas encore validé","xpEarned":0,"lastAction":"Vérification templates contrats"},{"agent":"⭐ TALENT","mission":"Jules → Samsung Food + dispos Vincent avril","priority":"🟠 High","context":"Jules doit être pitché sur le deal Samsung food. Vincent a 2 slots libres en avril à caser dans le pipeline. Peppe test Reel 60s.","nextStep":"Préparer le dossier talent Jules pour pitch Samsung + brief Reel 60s Peppe","blockedOn":"Attente confirmation Jules disponibilité","xpEarned":0,"lastAction":"Confirmation dispos Vincent Salur pour avril"}]}
+{
+  "lastSync": "2026-03-29T17:12:35.669274+00:00",
+  "agents": [
+    {
+      "id": "architect",
+      "name": "🏗️ ARCHITECT",
+      "status": "idle",
+      "room": "bureau",
+      "task": "",
+      "action": "",
+      "message": "Plans en attente.",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "herald",
+      "name": "📯 HERALD",
+      "status": "idle",
+      "room": "salle_reunion",
+      "task": "",
+      "action": "",
+      "message": "Aucune annonce.",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "sage",
+      "name": "📜 SAGE",
+      "status": "idle",
+      "room": "bureau",
+      "task": "",
+      "action": "",
+      "message": "Mémoire synchronisée.",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "scout",
+      "name": "🔭 SCOUT",
+      "status": "idle",
+      "room": "couloir2",
+      "task": "",
+      "action": "",
+      "message": "Veille active.",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "viper",
+      "name": "🐍 VIPER",
+      "status": "idle",
+      "room": "bureau",
+      "task": "",
+      "action": "",
+      "message": "En veille stratégique.",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "oracle",
+      "name": "🔮 ORACLE",
+      "status": "idle",
+      "room": "bureau",
+      "task": "CR Auto termine - 0 CR, 33 Qistoh",
+      "action": "Rapport genere",
+      "message": "Sync Qistoh OK, 0 CR a traiter",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "warden",
+      "name": "🛡️ WARDEN",
+      "status": "idle",
+      "room": "bureau",
+      "task": "",
+      "action": "",
+      "message": "Tout est en ordre.",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "hunter",
+      "name": "🏹 HUNTER",
+      "status": "working",
+      "room": "couloir",
+      "task": "Relance Elle & Vire + LCL",
+      "action": "Envoi emails",
+      "message": "LCL chaud → RDV sem14 🔥",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "khan",
+      "name": "👑 KHAN",
+      "status": "idle",
+      "room": "khan",
+      "task": "",
+      "action": "",
+      "message": "Le boss attend ses rapports.",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "alchemist",
+      "name": "⚗️ ALCHEMIST",
+      "status": "idle",
+      "room": "cuisine",
+      "task": "",
+      "action": "",
+      "message": "Labo prêt.",
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
+    },
+    {
+      "id": "talent",
+      "name": "⭐ TALENT",
+      "status": "waiting",
+      "room": "cuisine",
+      "task": "Matcher Jules → Samsung",
+      "action": "Attente confirmation dispos talents",
+      "message": "En attente de retour Milan",
+      "lastUpdate": "2026-03-29T00:38:42.754Z"
+    },
+    {
+      "id": "stratege",
+      "name": "🧠 STRATÈGE",
+      "status": "idle",
+      "room": "bureau",
+      "task": "Lecture priorities semaine",
+      "action": "En attente d'instructions",
+      "message": "Prêt à démarrer",
+      "lastUpdate": "2026-03-29T00:38:42.754Z"
+    },
+    {
+      "id": "admin",
+      "name": "📋 ADMIN",
+      "status": "idle",
+      "room": "bureau",
+      "task": "Devis Elle & Vire à préparer",
+      "action": "Templates contrats à jour",
+      "message": "En attente signal CRÉATIF",
+      "lastUpdate": "2026-03-29T00:38:42.754Z"
+    },
+    {
+      "id": "chasseur",
+      "name": "🎯 CHASSEUR",
+      "status": "working",
+      "room": "bureau",
+      "task": "Relance Elle & Vire + LCL",
+      "action": "Campagne Instantly active",
+      "message": "Pipeline en cours de mise à jour",
+      "lastUpdate": "2026-03-29T00:38:42.754Z"
+    },
+    {
+      "id": "creatif",
+      "name": "🎬 CRÉATIF",
+      "status": "working",
+      "room": "bureau",
+      "task": "Finaliser brief événementiel",
+      "action": "Brief La Table Hiving en cours",
+      "message": "Draft 80% terminé",
+      "lastUpdate": "2026-03-29T00:38:42.754Z"
+    }
+  ],
+  "quests": [
+    {
+      "title": "📞 RDV LCL confirmé",
+      "agent": "",
+      "status": "en cours",
+      "type": "URGENT",
+      "xp": 300,
+      "deadline": "2026-04-07",
+      "description": "Booker le RDV LCL semaine 14. Contact chaud à ne pas laisser refroidir",
+      "reward": "+300 XP — lead qualifié"
+    },
+    {
+      "title": "✍️ Brief La Table Hiving",
+      "agent": "",
+      "status": "en cours",
+      "type": "MAIN",
+      "xp": 400,
+      "deadline": "2026-04-03",
+      "description": "Finaliser le brief complet de l'événement La Table Hiving pour présentation marques",
+      "reward": "+400 XP — activation offre événementielle"
+    },
+    {
+      "title": "💰 Devis Elle & Vire",
+      "agent": "",
+      "status": "à faire",
+      "type": "SIDE",
+      "xp": 200,
+      "deadline": "2026-04-06",
+      "description": "Générer le devis Elle & Vire dès que le brief CRÉATIF est validé",
+      "reward": "+200 XP — pipeline financier"
+    },
+    {
+      "title": "⭐ Jules → Samsung Food",
+      "agent": "",
+      "status": "à faire",
+      "type": "MAIN",
+      "xp": 450,
+      "deadline": "2026-04-10",
+      "description": "Positionner Jules sur le deal Samsung food — préparer son dossier talent",
+      "reward": "+450 XP — nouveau deal talent"
+    },
+    {
+      "title": "🎬 Reel 60s Peppe",
+      "agent": "",
+      "status": "à faire",
+      "type": "SIDE",
+      "xp": 250,
+      "deadline": "2026-04-12",
+      "description": "Construire le brief format Reel 60s pour Peppe Cutraro — nouveau format à tester",
+      "reward": "+250 XP — nouveau format contenu"
+    },
+    {
+      "title": "🗺️ Roadmap Q2 Hiving Food",
+      "agent": "",
+      "status": "à faire",
+      "type": "MAIN",
+      "xp": 600,
+      "deadline": "2026-04-15",
+      "description": "Définir la roadmap complète Q2 2026 : deals cibles, talents, offres produit",
+      "reward": "+600 XP — vision long terme"
+    },
+    {
+      "title": "🔥 Closer Elle & Vire",
+      "agent": "",
+      "status": "en cours",
+      "type": "URGENT",
+      "xp": 500,
+      "deadline": "2026-04-05",
+      "description": "Relancer la proposition Elle & Vire et obtenir un RDV ou un accord",
+      "reward": "Deal signé — +500 XP — déblocage quête brief"
+    },
+    {
+      "title": "📧 Cold outreach x20",
+      "agent": "",
+      "status": "à faire",
+      "type": "DAILY",
+      "xp": 100,
+      "deadline": "2026-03-30",
+      "description": "Envoyer 20 emails de prospection qualifiés via Instantly",
+      "reward": "+100 XP par session"
+    }
+  ],
+  "missions": [
+    {
+      "agent": "🎯 CHASSEUR",
+      "mission": "Closer Elle & Vire + RDV LCL",
+      "priority": "🔴 Urgent",
+      "context": "Elle & Vire en discussion depuis 2 semaines, proposition envoyée. LCL est chaud, contact établi, RDV à booker semaine 14 absolument.",
+      "nextStep": "Appel LCL pour confirmer RDV + follow-up Elle & Vire si pas de retour sous 48h",
+      "blockedOn": "Attente retour Elle & Vire",
+      "xpEarned": 0,
+      "lastAction": "Relance email Elle & Vire envoyée"
+    },
+    {
+      "agent": "📋 ADMIN",
+      "mission": "Devis Elle & Vire dès validation brief",
+      "priority": "🟡 Normal",
+      "context": "En stand-by sur le brief CRÉATIF. Dès validation, générer le devis Elle & Vire. Templates contrats partenariat à jour.",
+      "nextStep": "Générer devis Elle & Vire dès signal CRÉATIF",
+      "blockedOn": "Brief Elle & Vire pas encore validé",
+      "xpEarned": 0,
+      "lastAction": "Vérification templates contrats"
+    },
+    {
+      "agent": "🧠 STRATÈGE",
+      "mission": "Roadmap Q2 Hiving Food",
+      "priority": "🟠 High",
+      "context": "Définir les 3-4 deals prioritaires Q2, les talents à pousser, et les offres produit à packager (La Table Hiving, House of Food)",
+      "nextStep": "Rédiger la roadmap complète Q2 avec objectifs chiffrés",
+      "blockedOn": "Rien — peut démarrer",
+      "xpEarned": 0,
+      "lastAction": "Analyse pipeline marques existant"
+    },
+    {
+      "agent": "⭐ TALENT",
+      "mission": "Jules → Samsung Food + dispos Vincent avril",
+      "priority": "🟠 High",
+      "context": "Jules doit être pitché sur le deal Samsung food. Vincent a 2 slots libres en avril à caser dans le pipeline. Peppe test Reel 60s.",
+      "nextStep": "Préparer le dossier talent Jules pour pitch Samsung + brief Reel 60s Peppe",
+      "blockedOn": "Attente confirmation Jules disponibilité",
+      "xpEarned": 0,
+      "lastAction": "Confirmation dispos Vincent Salur pour avril"
+    },
+    {
+      "agent": "🎬 CRÉATIF",
+      "mission": "Brief La Table Hiving (80%) + one-pager Hiving Food",
+      "priority": "🔴 Urgent",
+      "context": "Brief La Table Hiving est à 80% — événement filmé premium financé par sponsor. One-pager générique Hiving Food demandé par CHASSEUR pour cold outreach.",
+      "nextStep": "Finaliser brief La Table Hiving + créer one-pager 1 page Hiving Food",
+      "blockedOn": "Validation angle créatif La Table Hiving par Milan",
+      "xpEarned": 0,
+      "lastAction": "Draft brief La Table Hiving rédigé"
+    }
+  ]
+}
