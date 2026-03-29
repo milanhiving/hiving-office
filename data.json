@@ -69,7 +69,7 @@
       "task": "",
       "action": "",
       "message": "Tout est en ordre.",
-      "lastUpdate": "2026-03-29T14:00:29.724Z"
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
     },
     {
       "id": "sage",
@@ -114,6 +114,26 @@
       "reward": "Deal signé — +500 XP — déblocage quête brief"
     },
     {
+      "title": "📞 RDV LCL confirmé",
+      "agent": "",
+      "status": "en cours",
+      "type": "URGENT",
+      "xp": 300,
+      "deadline": "2026-04-07",
+      "description": "Booker le RDV LCL semaine 14. Contact chaud à ne pas laisser refroidir",
+      "reward": "+300 XP — lead qualifié"
+    },
+    {
+      "title": "✍️ Brief La Table Hiving",
+      "agent": "",
+      "status": "en cours",
+      "type": "MAIN",
+      "xp": 400,
+      "deadline": "2026-04-03",
+      "description": "Finaliser le brief complet de l'événement La Table Hiving pour présentation marques",
+      "reward": "+400 XP — activation offre événementielle"
+    },
+    {
       "title": "📧 Cold outreach x20",
       "agent": "",
       "status": "à faire",
@@ -134,16 +154,6 @@
       "reward": "+200 XP — pipeline financier"
     },
     {
-      "title": "📞 RDV LCL confirmé",
-      "agent": "",
-      "status": "en cours",
-      "type": "URGENT",
-      "xp": 300,
-      "deadline": "2026-04-07",
-      "description": "Booker le RDV LCL semaine 14. Contact chaud à ne pas laisser refroidir",
-      "reward": "+300 XP — lead qualifié"
-    },
-    {
       "title": "⭐ Jules → Samsung Food",
       "agent": "",
       "status": "à faire",
@@ -154,14 +164,14 @@
       "reward": "+450 XP — nouveau deal talent"
     },
     {
-      "title": "✍️ Brief La Table Hiving",
+      "title": "🎬 Reel 60s Peppe",
       "agent": "",
-      "status": "en cours",
-      "type": "MAIN",
-      "xp": 400,
-      "deadline": "2026-04-03",
-      "description": "Finaliser le brief complet de l'événement La Table Hiving pour présentation marques",
-      "reward": "+400 XP — activation offre événementielle"
+      "status": "à faire",
+      "type": "SIDE",
+      "xp": 250,
+      "deadline": "2026-04-12",
+      "description": "Construire le brief format Reel 60s pour Peppe Cutraro — nouveau format à tester",
+      "reward": "+250 XP — nouveau format contenu"
     },
     {
       "title": "🗺️ Roadmap Q2 Hiving Food",
@@ -172,29 +182,9 @@
       "deadline": "2026-04-15",
       "description": "Définir la roadmap complète Q2 2026 : deals cibles, talents, offres produit",
       "reward": "+600 XP — vision long terme"
-    },
-    {
-      "title": "🎬 Reel 60s Peppe",
-      "agent": "",
-      "status": "à faire",
-      "type": "SIDE",
-      "xp": 250,
-      "deadline": "2026-04-12",
-      "description": "Construire le brief format Reel 60s pour Peppe Cutraro — nouveau format à tester",
-      "reward": "+250 XP — nouveau format contenu"
     }
   ],
   "missions": [
-    {
-      "agent": "🧠 STRATÈGE",
-      "mission": "Roadmap Q2 Hiving Food",
-      "priority": "🟠 High",
-      "context": "Définir les 3-4 deals prioritaires Q2, les talents à pousser, et les offres produit à packager (La Table Hiving, House of Food)",
-      "nextStep": "Rédiger la roadmap complète Q2 avec objectifs chiffrés",
-      "blockedOn": "Rien — peut démarrer",
-      "xpEarned": 0,
-      "lastAction": "Analyse pipeline marques existant"
-    },
     {
       "agent": "🎯 CHASSEUR",
       "mission": "Closer Elle & Vire + RDV LCL",
@@ -204,6 +194,26 @@
       "blockedOn": "Attente retour Elle & Vire",
       "xpEarned": 0,
       "lastAction": "Relance email Elle & Vire envoyée"
+    },
+    {
+      "agent": "🎬 CRÉATIF",
+      "mission": "Brief La Table Hiving (80%) + one-pager Hiving Food",
+      "priority": "🔴 Urgent",
+      "context": "Brief La Table Hiving est à 80% — événement filmé premium financé par sponsor. One-pager générique Hiving Food demandé par CHASSEUR pour cold outreach.",
+      "nextStep": "Finaliser brief La Table Hiving + créer one-pager 1 page Hiving Food",
+      "blockedOn": "Validation angle créatif La Table Hiving par Milan",
+      "xpEarned": 0,
+      "lastAction": "Draft brief La Table Hiving rédigé"
+    },
+    {
+      "agent": "🧠 STRATÈGE",
+      "mission": "Roadmap Q2 Hiving Food",
+      "priority": "🟠 High",
+      "context": "Définir les 3-4 deals prioritaires Q2, les talents à pousser, et les offres produit à packager (La Table Hiving, House of Food)",
+      "nextStep": "Rédiger la roadmap complète Q2 avec objectifs chiffrés",
+      "blockedOn": "Rien — peut démarrer",
+      "xpEarned": 0,
+      "lastAction": "Analyse pipeline marques existant"
     },
     {
       "agent": "⭐ TALENT",
@@ -224,16 +234,6 @@
       "blockedOn": "Brief Elle & Vire pas encore validé",
       "xpEarned": 0,
       "lastAction": "Vérification templates contrats"
-    },
-    {
-      "agent": "🎬 CRÉATIF",
-      "mission": "Brief La Table Hiving (80%) + one-pager Hiving Food",
-      "priority": "🔴 Urgent",
-      "context": "Brief La Table Hiving est à 80% — événement filmé premium financé par sponsor. One-pager générique Hiving Food demandé par CHASSEUR pour cold outreach.",
-      "nextStep": "Finaliser brief La Table Hiving + créer one-pager 1 page Hiving Food",
-      "blockedOn": "Validation angle créatif La Table Hiving par Milan",
-      "xpEarned": 0,
-      "lastAction": "Draft brief La Table Hiving rédigé"
     }
   ]
 }
