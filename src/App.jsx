@@ -123,7 +123,7 @@ const FURN = [
 ];
 
 // ═══════════════════════════════════════════════════════════════
-// FURNITURE SPRITES (keep existing SVG engine)
+// FURNITURE SPRITES
 // ═══════════════════════════════════════════════════════════════
 function FurnSprite({ t, l, zk }) {
   const z = ZONES[zk] || ZONES.bureau;
@@ -154,41 +154,286 @@ function FurnSprite({ t, l, zk }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PNJ SPRITE
+// RPG AVATAR SPRITES (illustrated characters per agent)
 // ═══════════════════════════════════════════════════════════════
-function PNJ({ color, accent, status, frame, selected, isKhan }) {
-  const bob = Math.sin(frame*0.15)*1.5;
-  const walkBob = status==="walking" ? Math.sin(frame*0.5)*2 : 0;
-  const bodyY = TH/2 - 20 + bob + walkBob;
-  const glow = selected ? `drop-shadow(0 0 6px ${accent})` : (status==="working" ? `drop-shadow(0 0 3px ${accent})` : "none");
-  const headR = isKhan ? 7 : 6;
-  return <g style={{filter:glow}}>
-    <ellipse cx={TW/2} cy={TH/2+2} rx={8} ry={3} fill={color} opacity="0.3"/>
-    <rect x={TW/2-6} y={bodyY+8} width={12} height={14} rx={2} fill={color} stroke={accent} strokeWidth="0.6"/>
-    {status==="working"&&<rect x={TW/2-3} y={bodyY+12} width={6} height={3} rx={1} fill={accent} opacity="0.3"/>}
-    <circle cx={TW/2} cy={bodyY+4} r={headR} fill={color} stroke={accent} strokeWidth="0.8"/>
-    <circle cx={TW/2-2} cy={bodyY+2} r={1} fill={accent}/>
-    <circle cx={TW/2+2} cy={bodyY+2} r={1} fill={accent}/>
-    {isKhan&&<polygon points={`${TW/2-6},${bodyY-2} ${TW/2-4},${bodyY-7} ${TW/2},${bodyY-4} ${TW/2+4},${bodyY-7} ${TW/2+6},${bodyY-2}`} fill="#ffaa44" stroke="#cc8800" strokeWidth="0.4"/>}
-    {status==="working"&&<circle cx={TW/2+10} cy={bodyY} r={2} fill={accent} opacity={0.4+Math.sin(frame*0.2)*0.3}/>}
-    {status==="idle"&&frame%60<30&&<text x={TW/2+10} y={bodyY+4} fontSize="4" fill="#666" fontFamily="monospace">z</text>}
-  </g>;
+function RPGAvatar({ agentId, color, accent, status, frame, selected, isKhan }) {
+  const bob = status === "idle" ? Math.sin(frame * 0.06) * 0.8 : Math.sin(frame * 0.15) * 1.5;
+  const walkBob = status === "walking" ? Math.sin(frame * 0.5) * 2 : 0;
+  const bodyY = TH / 2 - 22 + bob + walkBob;
+  const cx = TW / 2;
+  const glow = selected ? `drop-shadow(0 0 8px ${accent})` : (status === "working" ? `drop-shadow(0 0 4px ${accent})` : "none");
+
+  // Seated pose for idle: character lower, no leg animation
+  const isSeated = status === "idle" || status === "waiting";
+  const seatOffset = isSeated ? 3 : 0;
+
+  // Breathing for idle
+  const breathScale = status === "idle" ? 1 + Math.sin(frame * 0.04) * 0.01 : 1;
+
+  const avatars = {
+    khan: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={9} ry={3.5} fill={color} opacity="0.35" />
+        {/* Royal robe body */}
+        <rect x={cx - 7} y={bodyY + 10 + seatOffset} width={14} height={14} rx={3} fill="#2a1a08" stroke="#c8762e" strokeWidth="0.8" />
+        <rect x={cx - 5} y={bodyY + 12 + seatOffset} width={10} height={5} rx={1} fill="#3a2208" stroke="#ffaa44" strokeWidth="0.4" />
+        {/* Epaulettes */}
+        <ellipse cx={cx - 7} cy={bodyY + 11 + seatOffset} rx={3} ry={2} fill="#c8762e" />
+        <ellipse cx={cx + 7} cy={bodyY + 11 + seatOffset} rx={3} ry={2} fill="#c8762e" />
+        {/* Head */}
+        <circle cx={cx} cy={bodyY + 5 + seatOffset} r={7} fill="#d4a060" stroke="#c8762e" strokeWidth="0.8" />
+        {/* Crown — detailed */}
+        <polygon points={`${cx - 7},${bodyY - 1 + seatOffset} ${cx - 5},${bodyY - 8 + seatOffset} ${cx - 2},${bodyY - 4 + seatOffset} ${cx},${bodyY - 9 + seatOffset} ${cx + 2},${bodyY - 4 + seatOffset} ${cx + 5},${bodyY - 8 + seatOffset} ${cx + 7},${bodyY - 1 + seatOffset}`} fill="#ffaa44" stroke="#cc8800" strokeWidth="0.5" />
+        <circle cx={cx} cy={bodyY - 6 + seatOffset} r="1.2" fill="#ff4444" />
+        <circle cx={cx - 4} cy={bodyY - 5 + seatOffset} r="0.8" fill="#44aaff" />
+        <circle cx={cx + 4} cy={bodyY - 5 + seatOffset} r="0.8" fill="#44ff44" />
+        {/* Face */}
+        <circle cx={cx - 2.5} cy={bodyY + 3.5 + seatOffset} r={1.2} fill="#1a0a00" />
+        <circle cx={cx + 2.5} cy={bodyY + 3.5 + seatOffset} r={1.2} fill="#1a0a00" />
+        <path d={`M${cx - 2},${bodyY + 7 + seatOffset} Q${cx},${bodyY + 9 + seatOffset} ${cx + 2},${bodyY + 7 + seatOffset}`} fill="none" stroke="#8a5020" strokeWidth="0.6" />
+        {/* Scepter */}
+        <line x1={cx + 10} y1={bodyY + 4 + seatOffset} x2={cx + 12} y2={bodyY + 22 + seatOffset} stroke="#c8762e" strokeWidth="1.2" />
+        <circle cx={cx + 10} cy={bodyY + 3 + seatOffset} r="2.5" fill="#ffaa44" stroke="#cc8800" strokeWidth="0.5" />
+        {status === "working" && <circle cx={cx + 10} cy={bodyY + 3 + seatOffset} r="4" fill="none" stroke="#ffaa44" strokeWidth="0.3" opacity={0.4 + Math.sin(frame * 0.2) * 0.3} />}
+      </g>
+    ),
+    oracle: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Mystic robe */}
+        <path d={`M${cx - 7},${bodyY + 8 + seatOffset} L${cx - 9},${bodyY + 24 + seatOffset} L${cx + 9},${bodyY + 24 + seatOffset} L${cx + 7},${bodyY + 8 + seatOffset} Z`} fill="#2a0a4a" stroke="#a855f7" strokeWidth="0.6" />
+        <path d={`M${cx - 4},${bodyY + 10 + seatOffset} L${cx},${bodyY + 22 + seatOffset} L${cx + 4},${bodyY + 10 + seatOffset}`} fill="none" stroke="#a855f7" strokeWidth="0.3" opacity="0.4" />
+        {/* Body */}
+        <rect x={cx - 6} y={bodyY + 8 + seatOffset} width={12} height={12} rx={3} fill="#1a0840" stroke="#7c3aed" strokeWidth="0.6" />
+        {/* Mystical eye symbol on chest */}
+        <ellipse cx={cx} cy={bodyY + 14 + seatOffset} rx="3" ry="1.5" fill="none" stroke="#a855f7" strokeWidth="0.5" />
+        <circle cx={cx} cy={bodyY + 14 + seatOffset} r="0.8" fill="#a855f7" />
+        {/* Hood */}
+        <path d={`M${cx - 7},${bodyY + 6 + seatOffset} Q${cx},${bodyY - 6 + seatOffset} ${cx + 7},${bodyY + 6 + seatOffset}`} fill="#1a0840" stroke="#7c3aed" strokeWidth="0.6" />
+        {/* Face (shadowed under hood) */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={5.5} fill="#c8a080" />
+        <circle cx={cx - 2} cy={bodyY + 3 + seatOffset} r={1} fill="#5b18a0" />
+        <circle cx={cx + 2} cy={bodyY + 3 + seatOffset} r={1} fill="#5b18a0" />
+        {/* Crystal ball in hand */}
+        <circle cx={cx - 8} cy={bodyY + 16 + seatOffset} r="3.5" fill="#2a0a5a" stroke="#a855f7" strokeWidth="0.6" />
+        <circle cx={cx - 8} cy={bodyY + 16 + seatOffset} r="1.5" fill="#a855f7" opacity={0.3 + Math.sin(frame * 0.15) * 0.3} />
+        {status === "working" && <>
+          <circle cx={cx - 8} cy={bodyY + 16 + seatOffset} r="5" fill="none" stroke="#a855f7" strokeWidth="0.3" opacity={0.3 + Math.sin(frame * 0.1) * 0.2} />
+          <circle cx={cx - 8} cy={bodyY + 16 + seatOffset} r="7" fill="none" stroke="#a855f7" strokeWidth="0.2" opacity={0.2 + Math.sin(frame * 0.08) * 0.15} />
+        </>}
+      </g>
+    ),
+    viper: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Dark cloak */}
+        <path d={`M${cx - 6},${bodyY + 8 + seatOffset} L${cx - 8},${bodyY + 23 + seatOffset} L${cx + 8},${bodyY + 23 + seatOffset} L${cx + 6},${bodyY + 8 + seatOffset}`} fill="#1a0808" stroke="#8a1c1c" strokeWidth="0.5" />
+        {/* Armor body */}
+        <rect x={cx - 6} y={bodyY + 8 + seatOffset} width={12} height={12} rx={2} fill="#2a0a0a" stroke="#ef4444" strokeWidth="0.6" />
+        {/* Snake emblem */}
+        <path d={`M${cx - 2},${bodyY + 11 + seatOffset} Q${cx + 2},${bodyY + 14 + seatOffset} ${cx - 1},${bodyY + 17 + seatOffset}`} fill="none" stroke="#ef4444" strokeWidth="0.7" />
+        {/* Head with mask */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={6} fill="#c0a080" stroke="#8a1c1c" strokeWidth="0.6" />
+        {/* Mask lower face */}
+        <path d={`M${cx - 5},${bodyY + 4 + seatOffset} L${cx - 5},${bodyY + 9 + seatOffset} Q${cx},${bodyY + 10 + seatOffset} ${cx + 5},${bodyY + 9 + seatOffset} L${cx + 5},${bodyY + 4 + seatOffset}`} fill="#1a0808" stroke="#ef4444" strokeWidth="0.3" />
+        {/* Sharp eyes */}
+        <line x1={cx - 4} y1={bodyY + 2.5 + seatOffset} x2={cx - 1} y2={bodyY + 3 + seatOffset} stroke="#ef4444" strokeWidth="1.2" />
+        <line x1={cx + 1} y1={bodyY + 3 + seatOffset} x2={cx + 4} y2={bodyY + 2.5 + seatOffset} stroke="#ef4444" strokeWidth="1.2" />
+        {/* Daggers */}
+        <line x1={cx + 8} y1={bodyY + 6 + seatOffset} x2={cx + 13} y2={bodyY + 14 + seatOffset} stroke="#ccc" strokeWidth="1" />
+        <line x1={cx + 8} y1={bodyY + 6 + seatOffset} x2={cx + 9} y2={bodyY + 5 + seatOffset} stroke="#ef4444" strokeWidth="1.5" />
+        {status === "working" && <circle cx={cx + 13} cy={bodyY + 14 + seatOffset} r="2" fill="#ef4444" opacity={0.3 + Math.sin(frame * 0.25) * 0.3} />}
+        {status === "idle" && frame % 80 < 40 && <text x={cx + 10} y={bodyY + 4 + seatOffset} fontSize="5" fill="#666" fontFamily="monospace">z</text>}
+      </g>
+    ),
+    hunter: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Leather armor */}
+        <rect x={cx - 6} y={bodyY + 8 + seatOffset} width={12} height={13} rx={2} fill="#3a2a10" stroke="#f97316" strokeWidth="0.6" />
+        <line x1={cx - 3} y1={bodyY + 9 + seatOffset} x2={cx - 3} y2={bodyY + 19 + seatOffset} stroke="#f97316" strokeWidth="0.3" opacity="0.4" />
+        <line x1={cx + 3} y1={bodyY + 9 + seatOffset} x2={cx + 3} y2={bodyY + 19 + seatOffset} stroke="#f97316" strokeWidth="0.3" opacity="0.4" />
+        {/* Head with ranger hood */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={6} fill="#c8a070" stroke="#8a4a10" strokeWidth="0.5" />
+        <path d={`M${cx - 6},${bodyY + 2 + seatOffset} Q${cx},${bodyY - 5 + seatOffset} ${cx + 6},${bodyY + 2 + seatOffset}`} fill="#3a2a10" stroke="#f97316" strokeWidth="0.4" />
+        {/* Determined eyes */}
+        <rect x={cx - 3.5} y={bodyY + 2.5 + seatOffset} width="2.5" height="1.5" rx="0.5" fill="#1a0a00" />
+        <rect x={cx + 1} y={bodyY + 2.5 + seatOffset} width="2.5" height="1.5" rx="0.5" fill="#1a0a00" />
+        {/* Bow on back */}
+        <path d={`M${cx + 7},${bodyY + 0 + seatOffset} Q${cx + 14},${bodyY + 12 + seatOffset} ${cx + 7},${bodyY + 22 + seatOffset}`} fill="none" stroke="#8a6020" strokeWidth="1.2" />
+        <line x1={cx + 8} y1={bodyY + 1 + seatOffset} x2={cx + 8} y2={bodyY + 21 + seatOffset} stroke="#8a6020" strokeWidth="0.5" />
+        {/* Arrow quiver hint */}
+        <line x1={cx + 5} y1={bodyY + 2 + seatOffset} x2={cx + 6} y2={bodyY + 18 + seatOffset} stroke="#aaa" strokeWidth="0.4" />
+        <line x1={cx + 6} y1={bodyY + 1 + seatOffset} x2={cx + 7} y2={bodyY + 17 + seatOffset} stroke="#aaa" strokeWidth="0.4" />
+        {status === "working" && <circle cx={cx} cy={bodyY - 4 + seatOffset} r="2" fill="#f97316" opacity={0.3 + Math.sin(frame * 0.2) * 0.2} />}
+      </g>
+    ),
+    architect: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Engineer coat */}
+        <rect x={cx - 7} y={bodyY + 8 + seatOffset} width={14} height={14} rx={2} fill="#0a2a10" stroke="#22c55e" strokeWidth="0.6" />
+        {/* Tool belt */}
+        <rect x={cx - 6} y={bodyY + 15 + seatOffset} width={12} height={2} rx={1} fill="#1a3a1a" stroke="#22c55e" strokeWidth="0.3" />
+        <rect x={cx - 3} y={bodyY + 14 + seatOffset} width={2} height={4} rx="0.5" fill="#22c55e" opacity="0.5" />
+        <rect x={cx + 1} y={bodyY + 14 + seatOffset} width={2} height={4} rx="0.5" fill="#22c55e" opacity="0.5" />
+        {/* Head with goggles */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={6} fill="#c8b090" stroke="#0a5a20" strokeWidth="0.5" />
+        {/* Goggles */}
+        <rect x={cx - 5} y={bodyY + 1.5 + seatOffset} width="4" height="3" rx="1.5" fill="#0a2a10" stroke="#22c55e" strokeWidth="0.5" />
+        <rect x={cx + 1} y={bodyY + 1.5 + seatOffset} width="4" height="3" rx="1.5" fill="#0a2a10" stroke="#22c55e" strokeWidth="0.5" />
+        <circle cx={cx - 3} cy={bodyY + 3 + seatOffset} r="1" fill="#22c55e" opacity="0.6" />
+        <circle cx={cx + 3} cy={bodyY + 3 + seatOffset} r="1" fill="#22c55e" opacity="0.6" />
+        {/* Blueprint scroll */}
+        <rect x={cx + 8} y={bodyY + 10 + seatOffset} width="3" height="10" rx="1.5" fill="#d4d4a0" stroke="#aaa060" strokeWidth="0.4" />
+        {status === "working" && <rect x={cx + 6} y={bodyY + 8 + seatOffset} width="8" height="6" rx="1" fill="#0a2a10" stroke="#22c55e" strokeWidth="0.3" opacity="0.6" />}
+      </g>
+    ),
+    herald: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Bard outfit */}
+        <rect x={cx - 6} y={bodyY + 8 + seatOffset} width={12} height={13} rx={2} fill="#3a2800" stroke="#eab308" strokeWidth="0.6" />
+        {/* Feathered collar */}
+        <ellipse cx={cx} cy={bodyY + 9 + seatOffset} rx="7" ry="2" fill="#4a3800" stroke="#eab308" strokeWidth="0.3" />
+        {/* Head with feathered hat */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={6} fill="#d4a880" stroke="#8a6800" strokeWidth="0.5" />
+        <path d={`M${cx - 5},${bodyY + 0 + seatOffset} Q${cx},${bodyY - 5 + seatOffset} ${cx + 5},${bodyY + 0 + seatOffset}`} fill="#3a2800" stroke="#eab308" strokeWidth="0.4" />
+        {/* Feather */}
+        <path d={`M${cx + 4},${bodyY - 3 + seatOffset} Q${cx + 10},${bodyY - 8 + seatOffset} ${cx + 8},${bodyY - 2 + seatOffset}`} fill="#eab308" opacity="0.7" />
+        {/* Eyes */}
+        <circle cx={cx - 2} cy={bodyY + 3 + seatOffset} r={1} fill="#1a0a00" />
+        <circle cx={cx + 2} cy={bodyY + 3 + seatOffset} r={1} fill="#1a0a00" />
+        <path d={`M${cx - 1.5},${bodyY + 6 + seatOffset} Q${cx},${bodyY + 7.5 + seatOffset} ${cx + 1.5},${bodyY + 6 + seatOffset}`} fill="none" stroke="#8a5020" strokeWidth="0.5" />
+        {/* Trumpet/Horn */}
+        <path d={`M${cx - 8},${bodyY + 12 + seatOffset} L${cx - 14},${bodyY + 10 + seatOffset}`} stroke="#eab308" strokeWidth="1.5" />
+        <ellipse cx={cx - 15} cy={bodyY + 10 + seatOffset} rx="2.5" ry="2" fill="#eab308" />
+        {status === "working" && <>
+          <circle cx={cx - 17} cy={bodyY + 8 + seatOffset} r="1.5" fill="#eab308" opacity={0.3 + Math.sin(frame * 0.3) * 0.3} />
+          <circle cx={cx - 19} cy={bodyY + 6 + seatOffset} r="1" fill="#eab308" opacity={0.2 + Math.sin(frame * 0.35) * 0.2} />
+        </>}
+      </g>
+    ),
+    warden: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Heavy armor */}
+        <rect x={cx - 7} y={bodyY + 8 + seatOffset} width={14} height={14} rx={2} fill="#1a1a3a" stroke="#6366f1" strokeWidth="0.8" />
+        {/* Shield emblem */}
+        <path d={`M${cx},${bodyY + 10 + seatOffset} L${cx - 3},${bodyY + 12 + seatOffset} L${cx - 3},${bodyY + 16 + seatOffset} Q${cx},${bodyY + 19 + seatOffset} ${cx + 3},${bodyY + 16 + seatOffset} L${cx + 3},${bodyY + 12 + seatOffset} Z`} fill="#2a2a5a" stroke="#6366f1" strokeWidth="0.5" />
+        {/* Helmet */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={6.5} fill="#2a2a4a" stroke="#6366f1" strokeWidth="0.7" />
+        {/* Visor slit */}
+        <rect x={cx - 4} y={bodyY + 2.5 + seatOffset} width="8" height="2.5" rx="1" fill="#0a0a1a" />
+        <circle cx={cx - 2} cy={bodyY + 3.5 + seatOffset} r="0.8" fill="#6366f1" opacity="0.8" />
+        <circle cx={cx + 2} cy={bodyY + 3.5 + seatOffset} r="0.8" fill="#6366f1" opacity="0.8" />
+        {/* Helmet crest */}
+        <rect x={cx - 1} y={bodyY - 4 + seatOffset} width="2" height="6" rx="1" fill="#6366f1" />
+        {/* Shield in hand */}
+        <ellipse cx={cx - 10} cy={bodyY + 14 + seatOffset} rx="4" ry="5" fill="#2a2a5a" stroke="#6366f1" strokeWidth="0.7" />
+        <line x1={cx - 10} y1={bodyY + 10 + seatOffset} x2={cx - 10} y2={bodyY + 18 + seatOffset} stroke="#6366f1" strokeWidth="0.4" />
+        <line x1={cx - 14} y1={bodyY + 14 + seatOffset} x2={cx - 6} y2={bodyY + 14 + seatOffset} stroke="#6366f1" strokeWidth="0.4" />
+        {status === "working" && <circle cx={cx - 10} cy={bodyY + 14 + seatOffset} r="6" fill="none" stroke="#6366f1" strokeWidth="0.3" opacity={0.2 + Math.sin(frame * 0.15) * 0.2} />}
+      </g>
+    ),
+    sage: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Scholar robe */}
+        <path d={`M${cx - 7},${bodyY + 8 + seatOffset} L${cx - 8},${bodyY + 24 + seatOffset} L${cx + 8},${bodyY + 24 + seatOffset} L${cx + 7},${bodyY + 8 + seatOffset}`} fill="#0a1a4a" stroke="#3b82f6" strokeWidth="0.5" />
+        <rect x={cx - 6} y={bodyY + 8 + seatOffset} width={12} height={12} rx={2} fill="#0e1a3a" stroke="#3b82f6" strokeWidth="0.6" />
+        {/* Book on chest */}
+        <rect x={cx - 3} y={bodyY + 11 + seatOffset} width="6" height="5" rx="0.5" fill="#d4c090" stroke="#8a7040" strokeWidth="0.4" />
+        <line x1={cx} y1={bodyY + 11 + seatOffset} x2={cx} y2={bodyY + 16 + seatOffset} stroke="#8a7040" strokeWidth="0.3" />
+        {/* Wise head with beard */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={6} fill="#d4b890" stroke="#1a3a8a" strokeWidth="0.5" />
+        {/* Spectacles */}
+        <circle cx={cx - 2.5} cy={bodyY + 3 + seatOffset} r="2" fill="none" stroke="#3b82f6" strokeWidth="0.5" />
+        <circle cx={cx + 2.5} cy={bodyY + 3 + seatOffset} r="2" fill="none" stroke="#3b82f6" strokeWidth="0.5" />
+        <line x1={cx - 0.5} y1={bodyY + 3 + seatOffset} x2={cx + 0.5} y2={bodyY + 3 + seatOffset} stroke="#3b82f6" strokeWidth="0.4" />
+        <circle cx={cx - 2.5} cy={bodyY + 3 + seatOffset} r="0.7" fill="#1a3a8a" />
+        <circle cx={cx + 2.5} cy={bodyY + 3 + seatOffset} r="0.7" fill="#1a3a8a" />
+        {/* Beard */}
+        <path d={`M${cx - 3},${bodyY + 7 + seatOffset} Q${cx},${bodyY + 13 + seatOffset} ${cx + 3},${bodyY + 7 + seatOffset}`} fill="#b8a080" stroke="#8a7050" strokeWidth="0.3" />
+        {/* Scroll in hand */}
+        <rect x={cx + 8} y={bodyY + 8 + seatOffset} width="3" height="12" rx="1.5" fill="#d4c890" stroke="#aaa060" strokeWidth="0.4" />
+        {status === "working" && <text x={cx + 8} y={bodyY + 6 + seatOffset} fontSize="5" fill="#3b82f6" opacity={0.4 + Math.sin(frame * 0.15) * 0.3}>📜</text>}
+      </g>
+    ),
+    alchemist: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Lab coat */}
+        <rect x={cx - 7} y={bodyY + 8 + seatOffset} width={14} height={14} rx={2} fill="#2a0a3a" stroke="#d946ef" strokeWidth="0.6" />
+        {/* Potion stains */}
+        <circle cx={cx - 3} cy={bodyY + 14 + seatOffset} r="1.5" fill="#d946ef" opacity="0.2" />
+        <circle cx={cx + 2} cy={bodyY + 17 + seatOffset} r="1" fill="#22c55e" opacity="0.2" />
+        {/* Head */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={6} fill="#d0a880" stroke="#6a0a8a" strokeWidth="0.5" />
+        {/* Wild hair */}
+        <path d={`M${cx - 6},${bodyY + 1 + seatOffset} Q${cx - 8},${bodyY - 5 + seatOffset} ${cx - 3},${bodyY - 4 + seatOffset} Q${cx},${bodyY - 7 + seatOffset} ${cx + 3},${bodyY - 4 + seatOffset} Q${cx + 8},${bodyY - 5 + seatOffset} ${cx + 6},${bodyY + 1 + seatOffset}`} fill="#6a0a8a" stroke="#d946ef" strokeWidth="0.3" />
+        {/* Goggles pushed up */}
+        <ellipse cx={cx - 2.5} cy={bodyY - 1 + seatOffset} rx="2" ry="1.5" fill="#2a0a3a" stroke="#d946ef" strokeWidth="0.4" />
+        <ellipse cx={cx + 2.5} cy={bodyY - 1 + seatOffset} rx="2" ry="1.5" fill="#2a0a3a" stroke="#d946ef" strokeWidth="0.4" />
+        {/* Crazy eyes */}
+        <circle cx={cx - 2} cy={bodyY + 3 + seatOffset} r={1.2} fill="#d946ef" />
+        <circle cx={cx + 2} cy={bodyY + 3 + seatOffset} r={1.2} fill="#d946ef" />
+        <circle cx={cx - 2} cy={bodyY + 3 + seatOffset} r={0.5} fill="#000" />
+        <circle cx={cx + 2} cy={bodyY + 3 + seatOffset} r={0.5} fill="#000" />
+        {/* Potion flask */}
+        <path d={`M${cx + 8},${bodyY + 12 + seatOffset} L${cx + 7},${bodyY + 8 + seatOffset} L${cx + 11},${bodyY + 8 + seatOffset} L${cx + 10},${bodyY + 12 + seatOffset}`} fill="none" stroke="#d946ef" strokeWidth="0.6" />
+        <ellipse cx={cx + 9} cy={bodyY + 14 + seatOffset} rx="2.5" ry="3" fill="#3a0a4a" stroke="#d946ef" strokeWidth="0.5" />
+        <ellipse cx={cx + 9} cy={bodyY + 15 + seatOffset} rx="1.5" ry="1.5" fill="#d946ef" opacity={0.3 + Math.sin(frame * 0.2) * 0.3} />
+        {status === "working" && <>
+          <circle cx={cx + 9} cy={bodyY + 10 + seatOffset} r="1" fill="#d946ef" opacity={0.4 + Math.sin(frame * 0.25) * 0.3} />
+          <circle cx={cx + 8} cy={bodyY + 8 + seatOffset} r="0.6" fill="#22c55e" opacity={0.3 + Math.sin(frame * 0.3) * 0.3} />
+        </>}
+      </g>
+    ),
+    scout: () => (
+      <g style={{ filter: glow }}>
+        <ellipse cx={cx} cy={TH / 2 + 3} rx={8} ry={3} fill={color} opacity="0.3" />
+        {/* Light explorer gear */}
+        <rect x={cx - 6} y={bodyY + 8 + seatOffset} width={12} height={13} rx={2} fill="#0a2a2a" stroke="#14b8a6" strokeWidth="0.6" />
+        {/* Belt with pouches */}
+        <rect x={cx - 7} y={bodyY + 15 + seatOffset} width={14} height={2} rx={1} fill="#1a3a3a" stroke="#14b8a6" strokeWidth="0.3" />
+        <rect x={cx - 6} y={bodyY + 14 + seatOffset} width="3" height="4" rx="0.5" fill="#0a2a2a" stroke="#14b8a6" strokeWidth="0.3" />
+        <rect x={cx + 3} y={bodyY + 14 + seatOffset} width="3" height="4" rx="0.5" fill="#0a2a2a" stroke="#14b8a6" strokeWidth="0.3" />
+        {/* Head */}
+        <circle cx={cx} cy={bodyY + 4 + seatOffset} r={6} fill="#c8b090" stroke="#0a5a5a" strokeWidth="0.5" />
+        {/* Explorer hat */}
+        <ellipse cx={cx} cy={bodyY - 1 + seatOffset} rx="8" ry="2" fill="#1a3a3a" stroke="#14b8a6" strokeWidth="0.3" />
+        <path d={`M${cx - 5},${bodyY - 1 + seatOffset} Q${cx},${bodyY - 5 + seatOffset} ${cx + 5},${bodyY - 1 + seatOffset}`} fill="#1a3a3a" stroke="#14b8a6" strokeWidth="0.3" />
+        {/* Sharp eyes */}
+        <circle cx={cx - 2.5} cy={bodyY + 3 + seatOffset} r={1} fill="#0a5a5a" />
+        <circle cx={cx + 2.5} cy={bodyY + 3 + seatOffset} r={1} fill="#0a5a5a" />
+        {/* Telescope */}
+        <rect x={cx + 7} y={bodyY + 9 + seatOffset} width="8" height="2.5" rx="1" fill="#2a4a4a" stroke="#14b8a6" strokeWidth="0.4" />
+        <circle cx={cx + 15} cy={bodyY + 10.5 + seatOffset} r="2" fill="#0a2a2a" stroke="#14b8a6" strokeWidth="0.4" />
+        {status === "working" && <circle cx={cx + 15} cy={bodyY + 10.5 + seatOffset} r="3" fill="none" stroke="#14b8a6" strokeWidth="0.3" opacity={0.3 + Math.sin(frame * 0.15) * 0.25} />}
+        {status === "idle" && frame % 80 < 40 && <text x={cx + 12} y={bodyY + 4 + seatOffset} fontSize="4" fill="#14b8a6" fontFamily="monospace" opacity="0.5">z</text>}
+      </g>
+    ),
+  };
+
+  const render = avatars[agentId] || avatars.oracle;
+  return render();
 }
 
 // ═══════════════════════════════════════════════════════════════
 // AGENTS META & DATA
 // ═══════════════════════════════════════════════════════════════
 const AGENT_META = {
-  "👑 KHAN":      { color:"#6b4200", accent:"#ffaa44", startC:2, startR:4, isKhan:true, cls:"Boss Final",  schedule:"Always",        real:"Milan — CEO oversight",     emoji:"👑" },
-  "🔮 ORACLE":    { color:"#5b18a0", accent:"#a855f7", startC:8, startR:2, isKhan:false, cls:"Devin",       schedule:"Lun-Ven 10h",   real:"Agent CR Automatique",      emoji:"🔮" },
-  "🐍 VIPER":     { color:"#8a1c1c", accent:"#ef4444", startC:11,startR:2, isKhan:false, cls:"Assassin",    schedule:"Lun-Ven 9h",    real:"Agent Relances",            emoji:"🐍" },
-  "🏹 HUNTER":    { color:"#8a4a10", accent:"#f97316", startC:14,startR:2, isKhan:false, cls:"Ranger",      schedule:"Lundi 9h",      real:"Agent Prospection B2B",     emoji:"🏹" },
-  "🏗️ ARCHITECT": { color:"#0a5a20", accent:"#22c55e", startC:17,startR:2, isKhan:false, cls:"Ingénieur",   schedule:"Jeudi 10h",     real:"Agent Marketing Site",      emoji:"🏗️" },
-  "📯 HERALD":    { color:"#8a6800", accent:"#eab308", startC:8, startR:6, isKhan:false, cls:"Barde",       schedule:"Lun-Ven 8h",    real:"LinkedIn Daily",            emoji:"📯" },
-  "🛡️ WARDEN":   { color:"#3a3a6a", accent:"#6366f1", startC:11,startR:6, isKhan:false, cls:"Gardien",     schedule:"Lundi 11h",     real:"Agent Meta Système",        emoji:"🛡️" },
-  "📜 SAGE":      { color:"#1a3a8a", accent:"#3b82f6", startC:24,startR:5, isKhan:false, cls:"Archiviste",  schedule:"Vendredi 18h",  real:"Agent Recap Hebdo",         emoji:"📜" },
-  "⚗️ ALCHEMIST": { color:"#6a0a8a", accent:"#d946ef", startC:26,startR:5, isKhan:false, cls:"Créateur",    schedule:"Mercredi 10h",  real:"Agent Dispositifs",         emoji:"⚗️" },
-  "🔭 SCOUT":     { color:"#0a5a5a", accent:"#14b8a6", startC:24,startR:15,isKhan:false, cls:"Éclaireur",   schedule:"Mardi 10h",     real:"Agent Audit Créateurs",     emoji:"🔭" },
+  "👑 KHAN":      { color:"#6b4200", accent:"#ffaa44", startC:2, startR:4, isKhan:true, cls:"Boss Final",  schedule:"Always",        real:"Milan — CEO oversight",     emoji:"👑", avId:"khan" },
+  "🔮 ORACLE":    { color:"#5b18a0", accent:"#a855f7", startC:8, startR:2, isKhan:false, cls:"Devin",       schedule:"Lun-Ven 10h",   real:"Agent CR Automatique",      emoji:"🔮", avId:"oracle" },
+  "🐍 VIPER":     { color:"#8a1c1c", accent:"#ef4444", startC:11,startR:2, isKhan:false, cls:"Assassin",    schedule:"Lun-Ven 9h",    real:"Agent Relances",            emoji:"🐍", avId:"viper" },
+  "🏹 HUNTER":    { color:"#8a4a10", accent:"#f97316", startC:14,startR:2, isKhan:false, cls:"Ranger",      schedule:"Lundi 9h",      real:"Agent Prospection B2B",     emoji:"🏹", avId:"hunter" },
+  "🏗️ ARCHITECT": { color:"#0a5a20", accent:"#22c55e", startC:17,startR:2, isKhan:false, cls:"Ingénieur",   schedule:"Jeudi 10h",     real:"Agent Marketing Site",      emoji:"🏗️", avId:"architect" },
+  "📯 HERALD":    { color:"#8a6800", accent:"#eab308", startC:8, startR:6, isKhan:false, cls:"Barde",       schedule:"Lun-Ven 8h",    real:"LinkedIn Daily",            emoji:"📯", avId:"herald" },
+  "🛡️ WARDEN":   { color:"#3a3a6a", accent:"#6366f1", startC:11,startR:6, isKhan:false, cls:"Gardien",     schedule:"Lundi 11h",     real:"Agent Meta Système",        emoji:"🛡️", avId:"warden" },
+  "📜 SAGE":      { color:"#1a3a8a", accent:"#3b82f6", startC:24,startR:5, isKhan:false, cls:"Archiviste",  schedule:"Vendredi 18h",  real:"Agent Recap Hebdo",         emoji:"📜", avId:"sage" },
+  "⚗️ ALCHEMIST": { color:"#6a0a8a", accent:"#d946ef", startC:26,startR:5, isKhan:false, cls:"Créateur",    schedule:"Mercredi 10h",  real:"Agent Dispositifs",         emoji:"⚗️", avId:"alchemist" },
+  "🔭 SCOUT":     { color:"#0a5a5a", accent:"#14b8a6", startC:24,startR:15,isKhan:false, cls:"Éclaireur",   schedule:"Mardi 10h",     real:"Agent Audit Créateurs",     emoji:"🔭", avId:"scout" },
 };
 
 const ZONE_SLOTS = {
@@ -199,6 +444,12 @@ const ZONE_SLOTS = {
   couloir:       [{c:19,r:4},{c:20,r:8},{c:19,r:14}],
   couloir2:      [{c:12,r:14},{c:15,r:14}],
 };
+
+// Desk positions (where agents sit when idle) — mapped to startC/startR
+function getDeskPos(agentName) {
+  const meta = AGENT_META[agentName];
+  return meta ? { c: meta.startC, r: meta.startR } : { c: 10, r: 5 };
+}
 
 const INIT_AGENTS = [
   { id:"khan", name:"👑 KHAN",      room:"khan",     status:"idle",    c:2, r:4, xp:5000, mission:"Superviser tous les agents", context:"Vue d'ensemble", lastAction:"Morning check", nextStep:"Valider brief La Table", blockedOn:"", priority:"🔴 Urgent", message:"Watching the game 🏌️" },
@@ -265,8 +516,6 @@ function mergeQuests(liveQuests, fallback) {
 // ═══════════════════════════════════════════════════════════════
 // UI COMPONENTS
 // ═══════════════════════════════════════════════════════════════
-
-// Status badge
 function StatusBadge({ status }) {
   const c = DS.status[status] || DS.status.idle;
   const label = {working:"En cours",idle:"Inactif",waiting:"En attente",browsing:"Navigation"}[status]||status;
@@ -276,18 +525,15 @@ function StatusBadge({ status }) {
   </div>;
 }
 
-// Quest type badge
 function TypeBadge({ type }) {
   const c = DS.quest[type] || "#666";
   return <span style={{fontSize:9,fontWeight:700,color:c,padding:"2px 7px",borderRadius:4,background:`${c}18`,border:`1px solid ${c}25`,fontFamily:DS.mono,letterSpacing:0.5}}>{type}</span>;
 }
 
-// XP Badge
 function XpBadge({ xp }) {
   return <span style={{fontSize:10,fontWeight:600,color:"#f59e0b",fontFamily:DS.mono}}>+{xp} XP</span>;
 }
 
-// Agent avatar (small circle with emoji + glow)
 function AgentAvatar({ name, size=28, status="idle" }) {
   const meta = AGENT_META[name] || {};
   const c = meta.accent || "#666";
@@ -298,7 +544,7 @@ function AgentAvatar({ name, size=28, status="idle" }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// QUEST CARD (redesigned — the heart of the product)
+// QUEST CARD
 // ═══════════════════════════════════════════════════════════════
 function QuestCard({ quest, agents, onComplete, onSelect, selected }) {
   const meta = AGENT_META[quest.ag] || {};
@@ -313,28 +559,16 @@ function QuestCard({ quest, agents, onComplete, onSelect, selected }) {
   return <div onClick={()=>onSelect?.(quest)} style={{
     background: selected ? DS.bg.hover : DS.bg.card,
     border: `1px solid ${selected ? ac+"60" : isActive ? tc+"30" : DS.border.subtle}`,
-    borderRadius: DS.radius.md,
-    padding: "14px 16px",
-    cursor: "pointer",
-    transition: "all .2s ease",
-    opacity: isDone ? 0.5 : isFailed ? 0.35 : 1,
-    position:"relative",
-    borderLeft: `3px solid ${tc}`,
+    borderRadius: DS.radius.md, padding: "14px 16px", cursor: "pointer", transition: "all .2s ease",
+    opacity: isDone ? 0.5 : isFailed ? 0.35 : 1, position:"relative", borderLeft: `3px solid ${tc}`,
   }}>
-    {/* Header: type + XP */}
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
       <TypeBadge type={quest.type}/>
       <XpBadge xp={quest.xp}/>
     </div>
-
-    {/* Title */}
     <div style={{fontSize:13,fontWeight:600,color:isDone?"#4a4e64":DS.text.primary,marginBottom:6,lineHeight:1.3,fontFamily:DS.font,
       textDecoration:isDone?"line-through":"none"}}>{quest.name}</div>
-
-    {/* Description */}
     <div style={{fontSize:11,color:DS.text.muted,marginBottom:10,lineHeight:1.4,fontFamily:DS.font}}>{quest.desc}</div>
-
-    {/* Footer: agent + deadline + action */}
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
       <div style={{display:"flex",alignItems:"center",gap:6}}>
         <AgentAvatar name={quest.ag} size={20} status={agent?.status}/>
@@ -345,8 +579,6 @@ function QuestCard({ quest, agents, onComplete, onSelect, selected }) {
         {isBlocked && <span style={{fontSize:9,color:DS.status.error,fontFamily:DS.mono}}>⚠️</span>}
       </div>
     </div>
-
-    {/* Complete button */}
     {isActive && <button onClick={(e)=>{e.stopPropagation();onComplete?.(quest.id);}}
       style={{width:"100%",marginTop:10,padding:"7px 0",background:"transparent",border:`1px solid ${DS.status.working}40`,
         color:DS.status.working,fontSize:11,fontWeight:600,cursor:"pointer",borderRadius:DS.radius.sm,fontFamily:DS.font,
@@ -357,7 +589,7 @@ function QuestCard({ quest, agents, onComplete, onSelect, selected }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// AGENT CARD (sidebar — with real presence)
+// AGENT CARD
 // ═══════════════════════════════════════════════════════════════
 function AgentCard({ agent, selected, onClick }) {
   const meta = AGENT_META[agent.name] || {};
@@ -368,8 +600,7 @@ function AgentCard({ agent, selected, onClick }) {
     display:"flex",alignItems:"center",gap:10,padding:"10px 12px",
     background: isSel ? `${ac}12` : "transparent",
     border: `1px solid ${isSel ? ac+"40" : "transparent"}`,
-    borderRadius: DS.radius.md, cursor:"pointer", transition:"all .2s",
-    marginBottom: 2,
+    borderRadius: DS.radius.md, cursor:"pointer", transition:"all .2s", marginBottom: 2,
   }}>
     <AgentAvatar name={agent.name} size={32} status={agent.status}/>
     <div style={{flex:1,minWidth:0}}>
@@ -385,6 +616,17 @@ function AgentCard({ agent, selected, onClick }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// INFO BLOCK
+// ═══════════════════════════════════════════════════════════════
+function InfoBlock({ label, value, icon, color }) {
+  if (!value) return null;
+  return <div>
+    <div style={{fontSize:9,color:DS.text.dim,textTransform:"uppercase",letterSpacing:0.5,marginBottom:3,fontFamily:DS.font}}>{label}</div>
+    <div style={{fontSize:11,color:color||DS.text.secondary,fontFamily:DS.font}}>{icon&&<span style={{marginRight:4}}>{icon}</span>}{value}</div>
+  </div>;
+}
+
+// ═══════════════════════════════════════════════════════════════
 // MAIN APP
 // ═══════════════════════════════════════════════════════════════
 export default function App() {
@@ -394,7 +636,7 @@ export default function App() {
   const [frame, setFrame] = useState(0);
   const [totalXp, setTotalXp] = useState(3170);
   const [selectedAgent, setSelectedAgent] = useState(null);
-  const [viewMode, setViewMode] = useState("command"); // command | map | kanban
+  const [viewMode, setViewMode] = useState("command"); // command | map | kanban | quests
   const [cam, setCam] = useState({x:0,y:0});
   const [scale, setScale] = useState(1.1);
   const [drag, setDrag] = useState(null);
@@ -402,7 +644,8 @@ export default function App() {
   const [selectedQuest, setSelectedQuest] = useState(null);
   const [lastSync, setLastSync] = useState(null);
   const [syncError, setSyncError] = useState(false);
-  const [questFilter, setQuestFilter] = useState("all"); // all | urgent | main | side | daily
+  const [questFilter, setQuestFilter] = useState("all");
+  const [questAgentFilter, setQuestAgentFilter] = useState("all");
 
   // ═══ LIVE DATA FETCH ═══
   useEffect(() => {
@@ -447,22 +690,53 @@ export default function App() {
     return ()=>clearInterval(id);
   }, []);
 
-  // Agent patrol
+  // ═══ SMART MOVEMENT (status-based) ═══
   useEffect(() => {
     if (frame%30!==0) return;
     setAgents(prev => {
       const next = [...prev];
       next.forEach(agent => {
+        const meta = AGENT_META[agent.name] || {};
+        const desk = getDeskPos(agent.name);
         const p = paths[agent.id];
-        if (p && p.length>1) {
+
+        if (p && p.length > 1) {
+          // Following existing path
           agent.c = p[1].c; agent.r = p[1].r;
-          setPaths(pp=>({...pp,[agent.id]:p.slice(1)}));
-        } else if (Math.random()<0.12) {
-          const slots = ZONE_SLOTS[agent.room];
-          if (slots) {
-            const target = slots[Math.floor(Math.random()*slots.length)];
-            const path = aStar(_walkCache, {c:agent.c,r:agent.r}, target);
-            if (path.length>1) setPaths(pp=>({...pp,[agent.id]:path}));
+          setPaths(pp => ({...pp, [agent.id]: p.slice(1)}));
+        } else if (agent.status === "idle" || agent.status === "waiting") {
+          // IDLE/WAITING: return to desk if not there
+          if (agent.c !== desk.c || agent.r !== desk.r) {
+            const path = aStar(_walkCache, {c:agent.c,r:agent.r}, desk);
+            if (path.length > 1) setPaths(pp => ({...pp, [agent.id]: path}));
+          }
+          // Otherwise stay put — no random wandering
+        } else if (agent.status === "working") {
+          // WORKING: purposeful movement within zone (lower frequency, not random chaos)
+          if (Math.random() < 0.06) {
+            const zone = ZONES[agent.room];
+            if (zone) {
+              // Move to a meaningful spot: near desk, printer, or meeting table
+              const meaningfulSpots = [
+                desk,
+                ...ZONE_SLOTS[agent.room] || [],
+              ];
+              const target = meaningfulSpots[Math.floor(Math.random() * meaningfulSpots.length)];
+              const path = aStar(_walkCache, {c:agent.c,r:agent.r}, target);
+              if (path.length > 1) setPaths(pp => ({...pp, [agent.id]: path}));
+            }
+          }
+        } else if (agent.status === "browsing") {
+          // BROWSING: move between zones occasionally
+          if (Math.random() < 0.04) {
+            const allZones = Object.keys(ZONE_SLOTS);
+            const targetZone = allZones[Math.floor(Math.random() * allZones.length)];
+            const slots = ZONE_SLOTS[targetZone];
+            if (slots) {
+              const target = slots[Math.floor(Math.random() * slots.length)];
+              const path = aStar(_walkCache, {c:agent.c,r:agent.r}, target);
+              if (path.length > 1) setPaths(pp => ({...pp, [agent.id]: path}));
+            }
           }
         }
       });
@@ -495,6 +769,7 @@ export default function App() {
       if(e.key==='1') setViewMode("command");
       if(e.key==='2') setViewMode("map");
       if(e.key==='3') setViewMode("kanban");
+      if(e.key==='4') setViewMode("quests");
       if(e.key==='+'||e.key==='=') setScale(s=>Math.min(3,s+0.2));
       if(e.key==='-') setScale(s=>Math.max(0.3,s-0.2));
     };
@@ -512,7 +787,11 @@ export default function App() {
   const blockedAgents = agents.filter(a=>a.blockedOn);
 
   // Filtered quests
-  const filteredQuests = quests.filter(q => questFilter === "all" || q.type === questFilter.toUpperCase());
+  const filteredQuests = quests.filter(q => {
+    if (questFilter !== "all" && q.type !== questFilter.toUpperCase()) return false;
+    if (questAgentFilter !== "all" && q.ag !== questAgentFilter) return false;
+    return true;
+  });
   const questsByStatus = {
     "en cours": filteredQuests.filter(q=>q.st==="en cours"),
     "à faire": filteredQuests.filter(q=>q.st==="à faire"),
@@ -529,6 +808,12 @@ export default function App() {
     {name:"Rabanne/PO", status:"Contact", color:"#d946ef"},
   ];
 
+  // Quests grouped by agent (for quests view)
+  const questsByAgent = {};
+  agents.forEach(a => {
+    questsByAgent[a.name] = quests.filter(q => q.ag === a.name);
+  });
+
   // ═══════════════════════════════════════════════════════════
   // RENDER
   // ═══════════════════════════════════════════════════════════
@@ -536,28 +821,23 @@ export default function App() {
 
     {/* ═══ TOP BAR ═══ */}
     <div style={{height:52,background:DS.bg.card,borderBottom:`1px solid ${DS.border.subtle}`,display:"flex",alignItems:"center",padding:"0 20px",gap:16,flexShrink:0,zIndex:50}}>
-
-      {/* Logo */}
       <div style={{display:"flex",alignItems:"center",gap:8}}>
         <span style={{fontSize:15,fontWeight:700,color:"#ffaa44",letterSpacing:1.5,fontFamily:DS.font}}>HIVING OFFICE</span>
-        <span style={{fontSize:9,color:DS.text.dim,fontFamily:DS.mono,padding:"1px 6px",background:DS.bg.elevated,borderRadius:4,border:`1px solid ${DS.border.subtle}`}}>v3</span>
+        <span style={{fontSize:9,color:DS.text.dim,fontFamily:DS.mono,padding:"1px 6px",background:DS.bg.elevated,borderRadius:4,border:`1px solid ${DS.border.subtle}`}}>v4</span>
       </div>
 
-      {/* View tabs */}
       <div style={{display:"flex",gap:2,marginLeft:20,background:DS.bg.elevated,borderRadius:DS.radius.md,padding:2,border:`1px solid ${DS.border.subtle}`}}>
-        {[{k:"command",l:"⚔️ Command",n:"1"},{k:"map",l:"🗺️ Office",n:"2"},{k:"kanban",l:"📋 Kanban",n:"3"}].map(v=>(
+        {[{k:"command",l:"⚔️ Command",n:"1"},{k:"map",l:"🗺️ Office",n:"2"},{k:"kanban",l:"📋 Kanban",n:"3"},{k:"quests",l:"📊 Quêtes",n:"4"}].map(v=>(
           <button key={v.k} onClick={()=>setViewMode(v.k)} style={{
             padding:"6px 14px",background:viewMode===v.k?DS.bg.hover:"transparent",
             border:"none",borderRadius:DS.radius.sm,color:viewMode===v.k?DS.text.primary:DS.text.muted,
-            fontSize:11,fontWeight:viewMode===v.k?600:400,cursor:"pointer",fontFamily:DS.font,transition:"all .2s",
-            letterSpacing:0.2,
+            fontSize:11,fontWeight:viewMode===v.k?600:400,cursor:"pointer",fontFamily:DS.font,transition:"all .2s",letterSpacing:0.2,
           }}>{v.l} <span style={{fontSize:8,color:DS.text.dim,fontFamily:DS.mono}}>{v.n}</span></button>
         ))}
       </div>
 
       <div style={{flex:1}}/>
 
-      {/* Stats */}
       <div style={{display:"flex",alignItems:"center",gap:14,fontSize:11,fontFamily:DS.mono}}>
         <div style={{display:"flex",alignItems:"center",gap:4}}>
           <div style={{width:7,height:7,borderRadius:"50%",background:DS.status.working,boxShadow:`0 0 6px ${DS.status.working}`}}/>
@@ -571,7 +851,6 @@ export default function App() {
         <div style={{color:DS.text.muted}}>{questsDone}/{questsTotal} quêtes</div>
       </div>
 
-      {/* XP Bar */}
       <div style={{width:160,display:"flex",alignItems:"center",gap:8}}>
         <span style={{fontSize:11,fontWeight:700,color:"#ffaa44",fontFamily:DS.mono}}>LV{level.lv}</span>
         <div style={{flex:1,height:6,background:DS.bg.elevated,borderRadius:3,overflow:"hidden",border:`1px solid ${DS.border.subtle}`}}>
@@ -580,7 +859,6 @@ export default function App() {
         <span style={{fontSize:9,color:DS.text.dim,fontFamily:DS.mono}}>{totalXp}</span>
       </div>
 
-      {/* Sync indicator */}
       <div style={{display:"flex",alignItems:"center",gap:5,padding:"3px 8px",borderRadius:DS.radius.sm,
         background:syncError?`${DS.status.error}12`:lastSync?`${DS.status.working}12`:DS.bg.elevated,
         border:`1px solid ${syncError?DS.status.error+"30":lastSync?DS.status.working+"30":DS.border.subtle}`}}>
@@ -594,22 +872,16 @@ export default function App() {
     {/* ═══ MAIN AREA ═══ */}
     <div style={{flex:1,display:"flex",overflow:"hidden"}}>
 
-      {/* ═══ LEFT SIDEBAR — Agent Roster ═══ */}
+      {/* ═══ LEFT SIDEBAR ═══ */}
       <div style={{width:280,background:DS.bg.card,borderRight:`1px solid ${DS.border.subtle}`,display:"flex",flexDirection:"column",flexShrink:0,overflow:"hidden"}}>
-
-        {/* Team header */}
         <div style={{padding:"14px 16px 10px",borderBottom:`1px solid ${DS.border.subtle}`}}>
           <div style={{fontSize:11,fontWeight:600,color:DS.text.secondary,letterSpacing:1,textTransform:"uppercase",fontFamily:DS.font}}>Équipe</div>
           <div style={{fontSize:10,color:DS.text.dim,marginTop:2,fontFamily:DS.font}}>{activeCount} agents actifs sur {agents.length}</div>
         </div>
-
-        {/* Agent list */}
         <div style={{flex:1,overflowY:"auto",padding:"6px 8px"}}>
           {agents.map(a => <AgentCard key={a.id} agent={a} selected={selectedAgent}
             onClick={()=>{setSelectedAgent(selectedAgent?.id===a.id?null:a);}}/>)}
         </div>
-
-        {/* Pipeline section */}
         <div style={{borderTop:`1px solid ${DS.border.subtle}`,padding:"12px 16px"}}>
           <div style={{fontSize:10,fontWeight:600,color:DS.text.dim,letterSpacing:1,textTransform:"uppercase",marginBottom:8,fontFamily:DS.font}}>Pipeline</div>
           {pipeline.map((p,i)=>(
@@ -625,10 +897,7 @@ export default function App() {
       <div style={{flex:1,overflow:"hidden",display:"flex",flexDirection:"column"}}>
 
         {viewMode==="command" && <>
-          {/* ═══ COMMAND CENTER ═══ */}
           <div style={{flex:1,overflow:"auto",padding:24,display:"flex",flexDirection:"column",gap:20}}>
-
-            {/* Alert bar — needs attention */}
             {(urgentCount>0||blockedAgents.length>0)&&<div style={{
               background:`${DS.quest.URGENT}08`,border:`1px solid ${DS.quest.URGENT}20`,borderRadius:DS.radius.lg,
               padding:"12px 18px",display:"flex",alignItems:"center",gap:12
@@ -643,7 +912,6 @@ export default function App() {
               </div>
             </div>}
 
-            {/* Quest filters */}
             <div style={{display:"flex",alignItems:"center",gap:8}}>
               <span style={{fontSize:12,fontWeight:600,color:DS.text.secondary,fontFamily:DS.font,marginRight:4}}>Quêtes</span>
               {[{k:"all",l:"Toutes"},{k:"urgent",l:"🔥 Urgent"},{k:"main",l:"⭐ Main"},{k:"side",l:"📦 Side"},{k:"daily",l:"🔄 Daily"}].map(f=>(
@@ -658,7 +926,6 @@ export default function App() {
               <span style={{fontSize:10,color:DS.text.dim,fontFamily:DS.mono}}>{filteredQuests.length} quête{filteredQuests.length>1?"s":""}</span>
             </div>
 
-            {/* Quest sections */}
             {["en cours","à faire","complétée"].map(status => {
               const qs = questsByStatus[status] || [];
               if (qs.length === 0) return null;
@@ -677,7 +944,6 @@ export default function App() {
         </>}
 
         {viewMode==="map" && <>
-          {/* ═══ MAP VIEW ═══ */}
           <div style={{flex:1,cursor:drag?"grabbing":"grab",position:"relative",touchAction:"none",overflow:"hidden"}}
             onMouseDown={onMouseDown} onMouseMove={onMouseMove} onMouseUp={onUp} onMouseLeave={onUp} onWheel={onWheel}>
 
@@ -712,7 +978,8 @@ export default function App() {
                       <polygon points={`${TW/2-4},${TH/2-52} ${TW/2+4},${TH/2-52} ${TW/2},${TH/2-46}`} fill={meta.accent}/>
                       <text x={TW/2} y={TH/2-58} textAnchor="middle" fontSize="6" fill="#ccc" fontFamily="sans-serif">{agent.message.slice(0,26)}</text>
                     </g>}
-                    <PNJ color={meta.color} accent={meta.accent} status={isWalking?"walking":agent.status}
+                    <RPGAvatar agentId={meta.avId||"oracle"} color={meta.color} accent={meta.accent}
+                      status={isWalking?"walking":agent.status}
                       frame={frame+agent.id.charCodeAt(0)*11} selected={isSel} isKhan={meta.isKhan}/>
                     <text x={TW/2} y={TH/2+24} textAnchor="middle" fontSize="5.5" fill={meta.accent} fontFamily="sans-serif"
                       style={{filter:`drop-shadow(0 0 2px ${meta.color})`}}>
@@ -723,13 +990,11 @@ export default function App() {
               </g>
             </svg>
 
-            {/* Map controls */}
             <div style={{position:"absolute",bottom:16,left:16,display:"flex",gap:4,zIndex:20}}>
               <button onClick={()=>setScale(s=>Math.min(3,s+0.2))} style={{width:28,height:28,background:DS.bg.card,border:`1px solid ${DS.border.default}`,borderRadius:DS.radius.sm,color:DS.text.muted,fontSize:14,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>+</button>
               <button onClick={()=>setScale(s=>Math.max(0.3,s-0.2))} style={{width:28,height:28,background:DS.bg.card,border:`1px solid ${DS.border.default}`,borderRadius:DS.radius.sm,color:DS.text.muted,fontSize:14,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>−</button>
             </div>
 
-            {/* Minimap */}
             <div style={{position:"absolute",bottom:16,right:16,background:`${DS.bg.card}ee`,border:`1px solid ${DS.border.default}`,padding:8,zIndex:20,borderRadius:DS.radius.md}}>
               <svg width={100} height={66}>
                 {Object.entries(ZONES).map(([k,z])=>(
@@ -745,7 +1010,6 @@ export default function App() {
         </>}
 
         {viewMode==="kanban" && <>
-          {/* ═══ KANBAN VIEW ═══ */}
           <div style={{flex:1,display:"flex",gap:12,padding:16,overflowX:"auto"}}>
             {[{key:"à faire",label:"📋 À faire",accent:DS.text.muted},{key:"en cours",label:"⚡ En cours",accent:DS.status.working},
               {key:"complétée",label:"✅ Complétées",accent:"#22c55e"},{key:"échouée",label:"❌ Échouées",accent:DS.status.error}].map(col=>{
@@ -763,12 +1027,104 @@ export default function App() {
             })}
           </div>
         </>}
+
+        {viewMode==="quests" && <>
+          {/* ═══ QUÊTES PAR AGENT VIEW ═══ */}
+          <div style={{flex:1,overflow:"auto",padding:24,display:"flex",flexDirection:"column",gap:20}}>
+            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:4}}>
+              <span style={{fontSize:14,fontWeight:700,color:DS.text.primary,fontFamily:DS.font}}>📊 Quêtes par Agent</span>
+              <span style={{fontSize:10,color:DS.text.dim,fontFamily:DS.mono}}>{quests.length} quêtes totales</span>
+            </div>
+
+            {agents.map(agent => {
+              const meta = AGENT_META[agent.name] || {};
+              const ac = meta.accent || "#666";
+              const agQ = questsByAgent[agent.name] || [];
+              const activeQ = agQ.filter(q => q.st === "en cours");
+              const todoQ = agQ.filter(q => q.st === "à faire");
+              const doneQ = agQ.filter(q => q.st === "complétée");
+
+              return <div key={agent.id} style={{
+                background: DS.bg.card, border: `1px solid ${DS.border.subtle}`,
+                borderRadius: DS.radius.lg, overflow: "hidden",
+                borderLeft: `3px solid ${ac}`,
+              }}>
+                {/* Agent header */}
+                <div style={{padding:"14px 18px",display:"flex",alignItems:"center",gap:12,borderBottom:`1px solid ${DS.border.subtle}`,
+                  background:`${ac}06`}}>
+                  <AgentAvatar name={agent.name} size={36} status={agent.status}/>
+                  <div style={{flex:1}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8}}>
+                      <span style={{fontSize:13,fontWeight:700,color:ac,fontFamily:DS.font}}>{agent.name}</span>
+                      <StatusBadge status={agent.status}/>
+                    </div>
+                    <div style={{fontSize:10,color:DS.text.muted,marginTop:2,fontFamily:DS.font}}>
+                      {meta.cls} — {agent.mission?.slice(0,50) || meta.real}
+                    </div>
+                  </div>
+                  <div style={{textAlign:"right"}}>
+                    <div style={{fontSize:18,fontWeight:700,color:ac,fontFamily:DS.mono}}>{agQ.length}</div>
+                    <div style={{fontSize:8,color:DS.text.dim,textTransform:"uppercase",letterSpacing:0.5}}>quêtes</div>
+                  </div>
+                  <div style={{display:"flex",gap:6}}>
+                    {activeQ.length > 0 && <span style={{fontSize:9,padding:"2px 6px",borderRadius:8,background:`${DS.status.working}15`,color:DS.status.working,fontFamily:DS.mono}}>⚡{activeQ.length}</span>}
+                    {todoQ.length > 0 && <span style={{fontSize:9,padding:"2px 6px",borderRadius:8,background:`${DS.text.muted}15`,color:DS.text.muted,fontFamily:DS.mono}}>📋{todoQ.length}</span>}
+                    {doneQ.length > 0 && <span style={{fontSize:9,padding:"2px 6px",borderRadius:8,background:"#22c55e15",color:"#22c55e",fontFamily:DS.mono}}>✅{doneQ.length}</span>}
+                  </div>
+                </div>
+
+                {/* Quest list */}
+                {agQ.length > 0 ? (
+                  <div style={{padding:"8px 12px",display:"flex",flexDirection:"column",gap:6}}>
+                    {agQ.map(q => {
+                      const tc = DS.quest[q.type] || "#666";
+                      const isActive = q.st === "en cours";
+                      const isDone = q.st === "complétée";
+                      return <div key={q.id} style={{
+                        display:"flex",alignItems:"center",gap:10,padding:"10px 14px",
+                        background: isActive ? `${tc}08` : DS.bg.elevated,
+                        border: `1px solid ${isActive ? tc+"25" : DS.border.subtle}`,
+                        borderRadius: DS.radius.sm, opacity: isDone ? 0.5 : 1,
+                        cursor:"pointer",transition:"all .2s",
+                      }} onClick={()=>setSelectedQuest(q)}>
+                        <TypeBadge type={q.type}/>
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontSize:11,fontWeight:600,color:isDone?"#4a4e64":DS.text.primary,fontFamily:DS.font,
+                            textDecoration:isDone?"line-through":"none",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+                            {q.name}
+                          </div>
+                          <div style={{fontSize:9,color:DS.text.dim,fontFamily:DS.font,marginTop:2}}>{q.desc}</div>
+                        </div>
+                        <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
+                          {q.dl && <span style={{fontSize:9,color:DS.text.dim,fontFamily:DS.mono}}>📅 {q.dl}</span>}
+                          <XpBadge xp={q.xp}/>
+                          <span style={{fontSize:9,padding:"2px 6px",borderRadius:4,
+                            background:isActive?`${DS.status.working}15`:isDone?"#22c55e15":`${DS.text.dim}15`,
+                            color:isActive?DS.status.working:isDone?"#22c55e":DS.text.dim,
+                            fontFamily:DS.mono,fontWeight:500}}>{q.st}</span>
+                        </div>
+                        {isActive && <button onClick={(e)=>{e.stopPropagation();completeQuest(q.id);}}
+                          style={{padding:"4px 10px",background:"transparent",border:`1px solid ${DS.status.working}40`,
+                            color:DS.status.working,fontSize:10,fontWeight:600,cursor:"pointer",borderRadius:DS.radius.sm,
+                            fontFamily:DS.font,flexShrink:0}}>
+                          ✓
+                        </button>}
+                      </div>;
+                    })}
+                  </div>
+                ) : (
+                  <div style={{padding:"20px 16px",textAlign:"center",fontSize:11,color:DS.text.dim,fontFamily:DS.font}}>
+                    Aucune quête assignée
+                  </div>
+                )}
+              </div>;
+            })}
+          </div>
+        </>}
       </div>
 
-      {/* ═══ RIGHT PANEL — Context & Detail ═══ */}
+      {/* ═══ RIGHT PANEL ═══ */}
       {(selectedAgent || selectedQuest) && <div style={{width:300,background:DS.bg.card,borderLeft:`1px solid ${DS.border.subtle}`,display:"flex",flexDirection:"column",flexShrink:0,overflow:"hidden"}}>
-
-        {/* Close button */}
         <div style={{display:"flex",justifyContent:"flex-end",padding:"8px 12px 0"}}>
           <button onClick={()=>{setSelectedAgent(null);setSelectedQuest(null);}}
             style={{background:"none",border:"none",color:DS.text.dim,cursor:"pointer",fontSize:16,padding:4}}>✕</button>
@@ -779,7 +1135,6 @@ export default function App() {
           const ac = meta.accent || "#666";
           const agQuests = quests.filter(q=>q.ag===selectedAgent.name);
           return <div style={{padding:"0 16px 16px",overflowY:"auto",flex:1}}>
-            {/* Agent header */}
             <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16}}>
               <AgentAvatar name={selectedAgent.name} size={44} status={selectedAgent.status}/>
               <div>
@@ -790,7 +1145,6 @@ export default function App() {
 
             <StatusBadge status={selectedAgent.status}/>
 
-            {/* Info blocks */}
             <div style={{marginTop:16,display:"flex",flexDirection:"column",gap:10}}>
               <InfoBlock label="Mission" value={selectedAgent.mission} color={ac}/>
               <InfoBlock label="Contexte" value={selectedAgent.context}/>
@@ -800,7 +1154,6 @@ export default function App() {
               <InfoBlock label="Planning" value={meta.schedule} icon="⏰"/>
             </div>
 
-            {/* Agent quests */}
             {agQuests.length>0 && <div style={{marginTop:20}}>
               <div style={{fontSize:10,fontWeight:600,color:DS.text.dim,letterSpacing:1,textTransform:"uppercase",marginBottom:8,fontFamily:DS.font}}>Quêtes assignées</div>
               {agQuests.map(q=><div key={q.id} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 10px",
@@ -874,14 +1227,5 @@ export default function App() {
       *::-webkit-scrollbar-thumb:hover { background: ${DS.border.active}; }
       button:hover { filter: brightness(1.15); }
     `}</style>
-  </div>;
-}
-
-// Small helper component
-function InfoBlock({ label, value, icon, color }) {
-  if (!value) return null;
-  return <div>
-    <div style={{fontSize:9,color:DS.text.dim,textTransform:"uppercase",letterSpacing:0.5,marginBottom:3,fontFamily:DS.font}}>{label}</div>
-    <div style={{fontSize:11,color:color||DS.text.secondary,fontFamily:DS.font}}>{icon&&<span style={{marginRight:4}}>{icon}</span>}{value}</div>
   </div>;
 }
