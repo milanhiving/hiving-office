@@ -1,5 +1,5 @@
 {
-  "lastSync": "2026-03-29T14:01:00.000Z",
+  "lastSync": "2026-03-29T16:36:19.827788+00:00",
   "agents": [
     {
       "id": "khan",
@@ -69,7 +69,7 @@
       "task": "",
       "action": "",
       "message": "Tout est en ordre.",
-      "lastUpdate": "2026-03-29T14:00:29.724Z"
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
     },
     {
       "id": "sage",
@@ -79,7 +79,7 @@
       "task": "",
       "action": "",
       "message": "Mémoire synchronisée.",
-      "lastUpdate": "2026-03-29T14:00:29.724Z"
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
     },
     {
       "id": "alchemist",
@@ -89,7 +89,7 @@
       "task": "",
       "action": "",
       "message": "Labo prêt.",
-      "lastUpdate": "2026-03-29T14:00:29.724Z"
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
     },
     {
       "id": "scout",
@@ -99,29 +99,19 @@
       "task": "",
       "action": "",
       "message": "Veille active.",
-      "lastUpdate": "2026-03-29T14:00:29.724Z"
+      "lastUpdate": "2026-03-29T14:00:43.860Z"
     }
   ],
   "quests": [
     {
-      "title": "🔥 Closer Elle & Vire",
+      "title": "🗺️ Roadmap Q2 Hiving Food",
       "agent": "",
-      "status": "en cours",
-      "type": "URGENT",
-      "xp": 500,
-      "deadline": "2026-04-05",
-      "description": "Relancer la proposition Elle & Vire et obtenir un RDV ou un accord",
-      "reward": "Deal signé — +500 XP — déblocage quête brief"
-    },
-    {
-      "title": "📞 RDV LCL confirmé",
-      "agent": "",
-      "status": "en cours",
-      "type": "URGENT",
-      "xp": 300,
-      "deadline": "2026-04-07",
-      "description": "Booker le RDV LCL semaine 14. Contact chaud à ne pas laisser refroidir",
-      "reward": "+300 XP — lead qualifié"
+      "status": "à faire",
+      "type": "MAIN",
+      "xp": 600,
+      "deadline": "2026-04-15",
+      "description": "Définir la roadmap complète Q2 2026 : deals cibles, talents, offres produit",
+      "reward": "+600 XP — vision long terme"
     },
     {
       "title": "✍️ Brief La Table Hiving",
@@ -134,14 +124,24 @@
       "reward": "+400 XP — activation offre événementielle"
     },
     {
-      "title": "📧 Cold outreach x20",
+      "title": "⭐ Jules → Samsung Food",
       "agent": "",
       "status": "à faire",
-      "type": "DAILY",
-      "xp": 100,
-      "deadline": "2026-03-30",
-      "description": "Envoyer 20 emails de prospection qualifiés via Instantly",
-      "reward": "+100 XP par session"
+      "type": "MAIN",
+      "xp": 450,
+      "deadline": "2026-04-10",
+      "description": "Positionner Jules sur le deal Samsung food — préparer son dossier talent",
+      "reward": "+450 XP — nouveau deal talent"
+    },
+    {
+      "title": "🔥 Closer Elle & Vire",
+      "agent": "",
+      "status": "en cours",
+      "type": "URGENT",
+      "xp": 500,
+      "deadline": "2026-04-05",
+      "description": "Relancer la proposition Elle & Vire et obtenir un RDV ou un accord",
+      "reward": "Deal signé — +500 XP — déblocage quête brief"
     },
     {
       "title": "💰 Devis Elle & Vire",
@@ -154,34 +154,34 @@
       "reward": "+200 XP — pipeline financier"
     },
     {
-      "title": "⭐ Jules → Samsung Food",
+      "title": "📧 Cold outreach x20",
       "agent": "",
       "status": "à faire",
-      "type": "MAIN",
-      "xp": 450,
-      "deadline": "2026-04-10",
-      "description": "Positionner Jules sur le deal Samsung food — préparer son dossier talent",
-      "reward": "+450 XP — nouveau deal talent"
+      "type": "DAILY",
+      "xp": 100,
+      "deadline": "2026-03-30",
+      "description": "Envoyer 20 emails de prospection qualifiés via Instantly",
+      "reward": "+100 XP par session"
+    },
+    {
+      "title": "📞 RDV LCL confirmé",
+      "agent": "🏹 HUNTER",
+      "status": "en cours",
+      "type": "URGENT",
+      "xp": 0,
+      "deadline": "",
+      "description": "Confirmer le RDV avec LCL semaine 14",
+      "reward": ""
     },
     {
       "title": "🎬 Reel 60s Peppe",
-      "agent": "",
-      "status": "à faire",
+      "agent": "⭐ TALENT",
+      "status": "en cours",
       "type": "SIDE",
-      "xp": 250,
-      "deadline": "2026-04-12",
-      "description": "Construire le brief format Reel 60s pour Peppe Cutraro — nouveau format à tester",
-      "reward": "+250 XP — nouveau format contenu"
-    },
-    {
-      "title": "🗺️ Roadmap Q2 Hiving Food",
-      "agent": "",
-      "status": "à faire",
-      "type": "MAIN",
-      "xp": 600,
-      "deadline": "2026-04-15",
-      "description": "Définir la roadmap complète Q2 2026 : deals cibles, talents, offres produit",
-      "reward": "+600 XP — vision long terme"
+      "xp": 0,
+      "deadline": "",
+      "description": "Test Reel 60s Peppe Cutraro",
+      "reward": ""
     }
   ],
   "missions": [
@@ -194,6 +194,16 @@
       "blockedOn": "Attente retour Elle & Vire",
       "xpEarned": 0,
       "lastAction": "Relance email Elle & Vire envoyée"
+    },
+    {
+      "agent": "🧠 STRATÈGE",
+      "mission": "Roadmap Q2 Hiving Food",
+      "priority": "🟠 High",
+      "context": "Définir les 3-4 deals prioritaires Q2, les talents à pousser, et les offres produit à packager (La Table Hiving, House of Food)",
+      "nextStep": "Rédiger la roadmap complète Q2 avec objectifs chiffrés",
+      "blockedOn": "Rien — peut démarrer",
+      "xpEarned": 0,
+      "lastAction": "Analyse pipeline marques existant"
     },
     {
       "agent": "🎬 CRÉATIF",
@@ -214,16 +224,6 @@
       "blockedOn": "Attente confirmation Jules disponibilité",
       "xpEarned": 0,
       "lastAction": "Confirmation dispos Vincent Salur pour avril"
-    },
-    {
-      "agent": "🧠 STRATÈGE",
-      "mission": "Roadmap Q2 Hiving Food",
-      "priority": "🟠 High",
-      "context": "Définir les 3-4 deals prioritaires Q2, les talents à pousser, et les offres produit à packager (La Table Hiving, House of Food)",
-      "nextStep": "Rédiger la roadmap complète Q2 avec objectifs chiffrés",
-      "blockedOn": "Rien — peut démarrer",
-      "xpEarned": 0,
-      "lastAction": "Analyse pipeline marques existant"
     },
     {
       "agent": "📋 ADMIN",
